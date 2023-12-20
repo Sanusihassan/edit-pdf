@@ -1,6 +1,7 @@
 import type { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import "../index.scss";
+import "pdfequips-navbar/scss/_navbar.scss";
 // redux store
 import { Provider as ReduxProvider } from "react-redux";
 // @ts-ignore

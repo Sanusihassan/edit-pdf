@@ -59,7 +59,6 @@ export default ({ item, lang }: { item: data_type; lang: string }) => {
   );
 };
 
-
 export const routes = {
-  "/merge-pdf": { item: tool["Merge_PDF"] },
+  "/edit-pdf": { item: tool["Edit_PDF"] },
 };

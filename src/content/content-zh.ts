@@ -10,12 +10,12 @@ import type {
 } from "../../content";
 
 export const tool: _tool = {
-  Merge_PDF: {
-    title: "合并PDF",
-    description: "将多个PDF文件合并成一个文档",
-    color: "var(--red)",
+  Edit_PDF: {
+    title: "编辑 PDF",
+    description: "修改 PDF 文件中的文本、图像和布局",
+    color: "#3867d6",
     type: ".pdf",
-    to: "/merge-pdf",
+    to: "/edit-pdf-zh",
   },
 };
 

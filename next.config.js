@@ -1,8 +1,9 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const isProd = process.env.NODE_ENV === "production";
+const withTM = require("next-transpile-modules")(["pdfequips-navbar"]);
 
-module.exports = {
+module.exports = withTM({
   sassOptions: {
     includePaths: [path.join(__dirname, "node_modules")],
   },
@@ -27,7 +28,7 @@ module.exports = {
         },
       };
     }
-
+    
 
     // Minify JavaScript
     if (process.env.NODE_ENV === "production") {
@@ -47,4 +48,4 @@ module.exports = {
 
     return config;
   },
-};
+});

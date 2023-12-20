@@ -9,12 +9,12 @@ import type {
 } from "../../content";
 
 export const tool: _tool = {
-  Merge_PDF: {
-    title: "دمج PDF",
-    description: "دمج ملفات PDF متعددة في مستند واحد",
-    color: "var(--red)",
+  Edit_PDF: {
+    title: "تعديل ملف PDF",
+    description: "تعديل النصوص والصور والتخطيط داخل ملف PDF",
+    color: "#3867d6",
     type: ".pdf",
-    to: "/merge-pdf",
+    to: "/edit-pdf-ar",
   },
 };
 

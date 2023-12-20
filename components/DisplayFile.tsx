@@ -18,6 +18,7 @@ import Files from "./DisplayFile/Files";
 import { useSelector, useDispatch } from "react-redux";
 import { ToolState, resetErrorMessage, setPath } from "../src/store";
 import { useFileStore } from "../src/file-store";
+import { PDFEditor } from "./DisplayFile/PDFEditor";
 type propTypes = {
   extension: string;
   pages: string;
@@ -141,7 +142,7 @@ const DisplayFile = ({
 
   return (
     <>
-      <Files
+      {/* <Files
         errors={errors}
         extension={extension}
         setToolTipSizes={setToolTipSizes}
@@ -149,7 +150,8 @@ const DisplayFile = ({
         loader_text={edit_page.loader_text}
         showSpinner={showSpinner}
         fileDetailProps={[pages, page, lang]}
-      />
+      /> */}
+      <PDFEditor pdf={files[0]} />
     </>
   );
 };

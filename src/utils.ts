@@ -295,3 +295,39 @@ export async function calculatePages(file: PDFFile): Promise<number> {
     };
   });
 }
+
+/**
+ * 
+ * TypeError: pdfjsWorker.getDocument is not a function
+
+Source
+src/utils.ts (322:7) @ getDocument
+
+  320 | return new Promise((resolve, reject) => {
+  321 |   pdfjsWorker
+> 322 |     .getDocument(path)
+      |     ^
+  323 |     .promise.then((document: any) => {
+  324 |       resolve(document);
+  325 |     })
+ */
+import type { PDFPageProxy } from "pdfjs-dist";
+
+export const createPDFPage = (
+  document: PDFDocumentProxy,
+  page: number
+): Promise<PDFPageProxy> => {
+  return new Promise((resolve, reject) => {
+    if (!document || !page) return reject();
+    document
+      .getPage(page)
+      .then((pageDocument: PDFPageProxy) => {
+        resolve(pageDocument);
+      })
+      .catch((error: any) => reject(error));
+  });
+};
+
+export const getPDFDocument = (source: string | Uint8Array) => {
+  return getDocument(source).promise;
+};

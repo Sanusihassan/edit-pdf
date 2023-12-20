@@ -1,5 +1,5 @@
-@import "~cssmolecule";
-@import "~custom-bs";
+@import "cssmolecule";
+@import "custom-bs";
 // @include type;
 @include images;
 @include containers;
@@ -62,6 +62,7 @@ $color-map: (
   "pdf-to-html": rgb(228, 77, 38),
   "pdf-to-markdown": #000000,
   "translate-pdf": #185abc,
+  "edit-pdf": #3867d6,
 );
 
 // html,

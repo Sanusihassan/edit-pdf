@@ -1,10 +1,10 @@
 export const tool = {
-  Merge_PDF: {
-    title: "Merge PDF",
-    description: "Combine multiple PDF files into one document",
-    color: "var(--red)",
+  Edit_PDF: {
+    title: "Edit PDF",
+    description: "Modify text, images, and layout within a PDF file",
+    color: "#3867d6",
     type: ".pdf",
-    to: "/merge-pdf",
+    to: "/edit-pdf",
   },
 };
 
