@@ -9,6 +9,7 @@ import {
   downloadFile,
 } from "../../src/content/content-fr";
 import { errors } from "../../src/content/content-fr";
+import { useRouter } from "next/router";
 
 type data_type = {
   title: string;
@@ -38,10 +39,25 @@ export async function getStaticProps({
 }
 
 export default ({ item, lang }: { item: data_type; lang: string }) => {
+  const router = useRouter();
+  const { asPath } = router;
+  const websiteSchema = {
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    name: `PDFEquips ${item.title}`,
+    description: item.description,
+    url: `https://www.pdfequips.com${asPath}`,
+  };
   return (
     <>
       <Head>
         <title>{`PDFEquips | ${item.title}`}</title>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
         <meta name="description" content={item.description} />
         <link rel="icon" href="/logo.png" />
       </Head>

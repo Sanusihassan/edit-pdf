@@ -1,37 +1,4 @@
-@import "cssmolecule";
-@import "custom-bs";
-// @include type;
-@include images;
-@include containers;
-@include grid;
-@include tables;
-@include forms;
-@include buttons;
-@include transitions;
-@include dropdown;
-@include button-group;
-@include nav;
-@include navbar;
-@include card;
-@include accordion;
-@include breadcrumb;
-@include pagination;
-@include badge;
-@include alert;
-@include progress;
-@include list-group;
-@include close;
-@include toasts;
-@include modal;
-@include tooltip;
-@include popover;
-@include carousel;
-@include spinners;
-@include offcanvas;
-@include placeholders;
-
-// Helpers
-@include helpers;
+@import "pdfequips-navbar/scss/_navbar.scss";
 
 %debug {
   outline: 1px solid;
@@ -39,8 +6,6 @@
 
 @import "./scss/minxins";
 @import "./scss/placeholders";
-@include list-group;
-@include api;
 
 $pdf-color: #fc271c;
 $color-map: (
@@ -71,6 +36,13 @@ $color-map: (
 // .tools-page {
 //   height: 100%;
 // }
+
+body {
+  @include ar-wrapper {
+    text-align: right !important;
+  }
+  font-family: "Raleway", sans-serif;
+}
 
 .tools-page {
   min-height: fit-content;
@@ -154,7 +126,6 @@ a.dropdown-item {
 @import "./scss/toolspage";
 @import "./scss/editpage";
 @import "./scss/display-file";
-@import "/components/NavBar/scss/navbar";
 
 footer {
   .copyright-row {
