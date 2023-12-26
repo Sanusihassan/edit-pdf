@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { useFileStore } from "../src/file-store";
 import { FileInputForm } from "./Tool/FileInputForm";
 import DownloadFile from "./DownloadFile";
+import { PDFEditor } from "./DisplayFile/PDFEditor";
 
 export type errorType = {
   response: {
@@ -63,7 +64,7 @@ const Tool: React.FC<ToolProps> = ({
     (state: { tool: ToolState }) => state.tool.errorMessage
   );
   // the files:
-  const { setFiles } = useFileStore();
+  const { setFiles, files } = useFileStore();
   const dispatch = useDispatch();
   // const dispatch = useDispatch();
   const router = useRouter();
@@ -134,14 +135,15 @@ const Tool: React.FC<ToolProps> = ({
           <ErrorElement />
         </div>
         {/* ) : ( */}
-        <EditPage
+        {/* <EditPage
           extension={data.type}
           edit_page={edit_page}
           pages={pages}
           page={page}
           lang={lang}
           errors={errors}
-        />
+        /> */}
+        <PDFEditor pdf={files[0]} />
         <DownloadFile lang={lang} downloadFile={downloadFile} />
         {/* )} */}
       </div>
