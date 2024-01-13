@@ -1,0 +1,27 @@
+.pdfequips-pdf-editor {
+  outline: 1px solid;
+  .header-tools {
+  }
+  .pdf-tools {
+    @include extend("d-flex justify-content-between");
+    .tool-row {
+      @include extend("d-flex justify-content-between");
+      outline: 1px solid;
+    }
+    .a,
+    .c {
+      flex: 0 1 17%;
+    }
+    .b {
+      flex: 0 1 54.03%;
+    }
+    .d {
+      flex: 0 1 8.2%;
+    }
+    .btn-stack {
+      outline: none;
+      border: none;
+      @include extend("d-flex flex-column");
+    }
+  }
+}

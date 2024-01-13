@@ -9,6 +9,7 @@ import {
   downloadFile,
 } from "../src/content/content";
 import { useRouter } from "next/router";
+import { PDFEditor } from "@/components/DisplayFile/PDFEditor";
 
 type data_type = {
   title: string;
@@ -66,7 +67,7 @@ export default ({ item }: { item: data_type }) => {
         />
       </Head>
       <NavBar path="edit-pdf" />
-      <Tool
+      {/* <Tool
         tools={tools}
         data={item}
         lang=""
@@ -75,7 +76,8 @@ export default ({ item }: { item: data_type }) => {
         pages={edit_page.pages}
         page={edit_page.page}
         downloadFile={downloadFile}
-      />
+      /> */}
+      <PDFEditor />
     </>
   );
 };

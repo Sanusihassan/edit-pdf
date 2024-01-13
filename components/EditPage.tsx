@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 
-import Options, { OptionsProps } from "./DisplayFile/Options";
+
 import type { edit_page } from "../content";
 import ErrorElement from "./ErrorElement";
 import type { errors as _ } from "../content";

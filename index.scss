@@ -126,29 +126,4 @@ a.dropdown-item {
 @import "./scss/toolspage";
 @import "./scss/editpage";
 @import "./scss/display-file";
-
-footer {
-  .copyright-row {
-    @include xs {
-      margin-bottom: 1em;
-      justify-content: space-between;
-
-      .copyright-text,
-      .lang-dropdown {
-        flex: 0 1 49%;
-      }
-
-      .copyright-text {
-        :not(:lang(ar)) & {
-          text-align: right;
-        }
-      }
-    }
-  }
-
-  .terms-row {
-    @include xs {
-      justify-content: space-between !important;
-    }
-  }
-}
+@import "./scss/pdfequips-pdf-editor";
