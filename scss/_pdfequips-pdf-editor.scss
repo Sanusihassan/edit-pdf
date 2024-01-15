@@ -1,6 +1,70 @@
 .pdfequips-pdf-editor {
-  // .header-tools {
-  // }
+  .header-tools {
+    .header-tools-nav {
+      @include extend("d-flex justify-content-between");
+      .logo-info-wrapper {
+        @include extend("d-flex justify-content-between");
+        > svg {
+          width: 7em;
+          height: 5em;
+        }
+      }
+      .file-info-panel {
+        @include extend(
+          "d-flex pt-2 align-items-center justify-content-between"
+        );
+        .file-name {
+          &:hover {
+            // Styles for hover state
+            text-decoration: underline;
+          }
+        }
+
+        .document-location {
+          // Styles for the document location link
+          color: #0984e3;
+          text-decoration: none;
+          // Add any other styles for the document location link
+
+          &:hover {
+            // Styles for hover state
+            text-decoration: underline;
+          }
+        }
+
+        .icon-dot {
+          // Styles for the dot icon
+          color: #95a5a6;
+          font-size: 0.75em;
+          // Add any other styles for the dot icon
+        }
+        .icon-clock {
+          color: #0984e3;
+        }
+
+        .modified-label {
+          // Styles for the "Modified On" label
+          font-weight: bold;
+          // Add any other styles for the modified label
+        }
+
+        .modified-date {
+          color: #95a5a6;
+        }
+      }
+    }
+    .file-manager-container {
+      @include extend("d-flex align-items-center justify-content-between");
+      .button-group {
+        @include extend("d-flex");
+        button {
+          @include extend("d-flex align-items-center justify-content-between");
+        }
+      }
+      outline: 1px solid;
+      flex: 0 1 28.33%;
+    }
+  }
   .pdf-tools {
     $bg: #2c3e50;
     background-color: lighten($bg, 50%);
