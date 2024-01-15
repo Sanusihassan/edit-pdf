@@ -1,28 +1,31 @@
 import { FaUndo, FaRedo } from "react-icons/fa";
 import { EditTools } from "./EditTools";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import { TextManipulationTools } from "./TextManipulationTools";
+import { Settings } from "./Settings";
+import { BtnStack } from "./BtnStack";
 
 export const Tools = () => {
   return (
     <>
       <section className="pdf-tools">
         <div className="a tool-row">
-          <button className="btn-stack">
+          <BtnStack id="pages">
             pages
             <DocumentDuplicateIcon className="icon" />
-          </button>
-          <button className="btn-stack">
+          </BtnStack>
+          <BtnStack id="undo">
             undo
             <FaUndo className="icon" />
-          </button>
-          <button className="btn-stack">
+          </BtnStack>
+          <BtnStack id="redo">
             redo
             <FaRedo className="icon" />
-          </button>
+          </BtnStack>
         </div>
         <EditTools />
-        <div className="c tool-row">3</div>
-        <div className="d tool-row">4</div>
+        <TextManipulationTools />
+        <Settings />
       </section>
     </>
   );
