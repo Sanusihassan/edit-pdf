@@ -10,6 +10,8 @@ import {
 } from "../src/content/content";
 import { useRouter } from "next/router";
 import { PDFEditor } from "@/components/DisplayFile/PDFEditor";
+import { ToolState } from "@/src/store";
+import { useSelector } from "react-redux";
 
 type data_type = {
   title: string;
@@ -48,6 +50,9 @@ export default ({ item }: { item: data_type }) => {
     description: item.description,
     url: `https://www.pdfequips.com${asPath}`,
   };
+  const stateShowTool = useSelector(
+    (state: { tool: ToolState }) => state.tool.showTool
+  );
   return (
     <>
       <Head>
@@ -66,8 +71,8 @@ export default ({ item }: { item: data_type }) => {
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         />
       </Head>
-      {/* <NavBar path="edit-pdf" /> */}
-      {/* <Tool
+      {stateShowTool ? <NavBar path="edit-pdf" /> : <PDFEditor />}
+      <Tool
         tools={tools}
         data={item}
         lang=""
@@ -76,8 +81,7 @@ export default ({ item }: { item: data_type }) => {
         pages={edit_page.pages}
         page={edit_page.page}
         downloadFile={downloadFile}
-      /> */}
-      <PDFEditor />
+      />
     </>
   );
 };

@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import { setShowDownloadBtn, type ToolState } from "../src/store";
-import { DownloadIcon, ArrowLeftIcon } from "@heroicons/react/solid";
 import { useDispatch } from "react-redux";
 import { Tooltip } from "react-tooltip";
 import type { downloadFile } from "../content";
 import { useEffect } from "react";
 import { useFileStore } from "../src/file-store";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { BiDownload } from "react-icons/bi";
 const DownloadFile = ({
   lang,
   downloadFile,
@@ -63,7 +64,7 @@ const DownloadFile = ({
             }
           }}
         >
-          <DownloadIcon className="icon text-white mr-2" />
+          <BiDownload className="icon text-white mr-2" />
           <bdi>
             {downloadFile.btnText &&
               downloadFile.btnText[path as keyof typeof downloadFile.btnText] &&

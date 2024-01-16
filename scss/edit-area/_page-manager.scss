@@ -10,5 +10,62 @@ aside.page-manager {
     .pages {
       font-size: small;
     }
+    .re-arrange {
+      @include extend(
+        "d-flex align-items-center justify-content-between btn-reset rounded-1 p-2"
+      );
+      &:hover {
+        background-color: darken(#dfe6e9, 10%);
+      }
+    }
+  }
+  .body {
+    @include extend("card-body");
+
+    .page-number {
+      @include extend("badge rounded-0 position-absolute");
+      top: 0;
+      left: 0;
+      background-color: $dark;
+      &.active {
+        background-color: $red;
+      }
+    }
+    .thumbnail {
+      border: 1px solid lighten($red, 5%);
+      @include extend("position-relative transition");
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        .page-settings {
+          opacity: 1;
+        }
+      }
+      padding: 1px;
+      &:not(:last-of-type) {
+        margin-bottom: 0.25em;
+      }
+      .page-settings {
+        @include extend("d-flex justify-content-between transition");
+        opacity: 0;
+
+        button {
+          @include extend("btn-reset rounded-1 p-1 px-2");
+          @include extend("light-btn");
+          &:nth-child(2),
+          &:nth-child(3) {
+            border-radius: 0 !important;
+          }
+          &:nth-child(1) {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+          }
+          &:nth-child(4) {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+          }
+        }
+      }
+    }
   }
 }

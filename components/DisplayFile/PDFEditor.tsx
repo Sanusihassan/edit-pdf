@@ -3,7 +3,7 @@ import { PageManager } from "./Editor/EditArea/PageManager";
 import { Header } from "./Editor/Header";
 import { Tools } from "./Editor/Tools";
 
-export const PDFEditor = ({ pdf }: { pdf?: File }) => {
+export const PDFEditor = () => {
   return (
     <>
       <div className="pdfequips-pdf-editor">

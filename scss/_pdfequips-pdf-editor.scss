@@ -1,9 +1,8 @@
 .pdfequips-pdf-editor {
-  %btn-reset {
-    outline: none;
-    background: none;
-    border: none;
-  }
+  // some global variables
+  $red: #d63031;
+  $dark: #95a5a6;
+  @import "./placeholders";
   @import "./header-tools";
   .pdf-tools {
     $bg: #2c3e50;
@@ -28,10 +27,10 @@
     .btn-stack {
       flex: 0 1 2.5rem;
       @include extend(
-        "d-flex flex-column justify-content-between align-items-center btn-reset rounded-1"
+        "d-flex flex-column justify-content-between align-items-center btn-reset rounded-1 transition"
       );
       background: transparent;
-      transition: 0.3s;
+
       &:hover,
       &.active {
         background-color: lighten($bg, 25%);

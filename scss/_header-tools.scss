@@ -20,7 +20,7 @@
         min-width: 3ch;
         &:focus,
         &:hover {
-          border-bottom: 1px solid #95a5a6;
+          border-bottom: 1px solid $dark;
         }
         // &:hover {
         //   // Styles for hover state
@@ -42,7 +42,7 @@
 
       .icon-dot {
         // Styles for the dot icon
-        color: #95a5a6;
+        color: $dark;
         font-size: 0.75em;
         // Add any other styles for the dot icon
       }
@@ -52,7 +52,7 @@
 
       .modified-label,
       .modified-date {
-        color: #95a5a6;
+        color: $dark;
       }
     }
   }
@@ -67,14 +67,7 @@
       &:first-child {
         flex: 2 1 33.33%;
         button {
-          $light: #dfe6e9;
-          background-color: $light;
-          &:hover {
-            background-color: darken($light, 10%);
-          }
-          &:active {
-            background-color: lighten($light, 3%);
-          }
+          @include extend("light-btn");
         }
       }
       &:last-child {
@@ -84,7 +77,7 @@
             color: #ffd700;
           }
         }
-        $red: #d63031;
+
         button:not(.done-button) {
           border: 1px solid $red;
           &:hover {
@@ -102,9 +95,8 @@
 
       button {
         @include extend(
-          "d-flex align-items-center justify-content-between btn-reset p-1 rounded-1"
+          "d-flex align-items-center justify-content-between btn-reset p-1 rounded-1 transition"
         );
-        transition: 0.3s;
       }
     }
 

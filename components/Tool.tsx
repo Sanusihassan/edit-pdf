@@ -143,7 +143,6 @@ const Tool: React.FC<ToolProps> = ({
           lang={lang}
           errors={errors}
         /> */}
-        <PDFEditor pdf={files[0]} />
         <DownloadFile lang={lang} downloadFile={downloadFile} />
         {/* )} */}
       </div>
