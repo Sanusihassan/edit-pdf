@@ -1,0 +1,14 @@
+aside.page-manager {
+  flex: 0 1 13.5%;
+  @include extend("card rounded-0");
+  header {
+    @include extend(
+      "card-header d-flex justify-content-between align-items-center"
+    );
+    background: none;
+    border-bottom-color: #dfe6e9;
+    .pages {
+      font-size: small;
+    }
+  }
+}

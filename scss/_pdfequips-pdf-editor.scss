@@ -43,4 +43,13 @@
       // border-radius: 0.5rem;
     }
   }
+  .edit-area {
+    @include extend("d-flex");
+    > * {
+      outline: 1px solid;
+      min-height: 100vh;
+    }
+    @import "./edit-area/page-manager";
+    @import "./edit-area/editing-area";
+  }
 }

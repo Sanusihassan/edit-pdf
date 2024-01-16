@@ -3,9 +3,11 @@
     @include extend("d-flex justify-content-between");
     .logo-info-wrapper {
       @include extend("d-flex justify-content-between");
-      > svg {
-        width: 7em;
-        height: 5em;
+      .logo {
+        > svg {
+          width: 7em;
+          height: 5em;
+        }
       }
     }
     .file-info-panel {
@@ -14,10 +16,16 @@
         @include extend("btn-reset p-0 m-0");
       }
       .file-name {
+        @include extend("btn-reset");
+        min-width: 3ch;
+        &:focus,
         &:hover {
-          // Styles for hover state
-          text-decoration: underline;
+          border-bottom: 1px solid #95a5a6;
         }
+        // &:hover {
+        //   // Styles for hover state
+        //   text-decoration: underline;
+        // }
       }
 
       .document-location {

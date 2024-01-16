@@ -13,6 +13,7 @@ export interface ToolState {
   showOptions: boolean;
   nav_height: number;
   activeButton: string | null;
+  fileName: string;
 }
 
 const initialState: ToolState = {
@@ -27,7 +28,8 @@ const initialState: ToolState = {
   showDownloadBtn: false,
   showOptions: false,
   nav_height: 0,
-  activeButton: null
+  activeButton: null,
+  fileName: "",
 };
 
 const toolSlice = createSlice({
@@ -54,11 +56,11 @@ const toolSlice = createSlice({
     },
     setErrorMessage(state: ToolState, action: PayloadAction<string>) {
       state.errorMessage = action.payload;
-      state.showErrorMessage = true; // set the showErrorMessage property to true when an error message is set
+      state.showErrorMessage = true;
     },
     resetErrorMessage(state: ToolState) {
       state.errorMessage = "";
-      state.showErrorMessage = false; // reset the showErrorMessage property to false when the error message is reset
+      state.showErrorMessage = false;
       state.errorCode = null;
       state.isSubmitted = false;
     },
@@ -77,6 +79,9 @@ const toolSlice = createSlice({
     setActiveButton: (state, action: PayloadAction<string | null>) => {
       state.activeButton = action.payload;
     },
+    setFileName: (state, action: PayloadAction<string>) => {
+      state.fileName = action.payload;
+    },
   },
 });
 
@@ -94,6 +99,7 @@ export const {
   setShowOptions,
   setNavHeight,
   setActiveButton,
+  setFileName,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

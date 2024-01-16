@@ -5,7 +5,9 @@ export const Header = () => (
   <header className="header-tools">
     <nav className="header-tools-nav">
       <div className="logo-info-wrapper">
-        <Logo />
+        <a href="/" className="logo">
+          <Logo />
+        </a>
         <FileInfoPanel />
       </div>
       <FileManager />
