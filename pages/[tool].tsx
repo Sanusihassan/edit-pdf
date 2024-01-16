@@ -66,7 +66,7 @@ export default ({ item }: { item: data_type }) => {
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         />
       </Head>
-      <NavBar path="edit-pdf" />
+      {/* <NavBar path="edit-pdf" /> */}
       {/* <Tool
         tools={tools}
         data={item}

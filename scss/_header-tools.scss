@@ -1,0 +1,108 @@
+.header-tools {
+  .header-tools-nav {
+    @include extend("d-flex justify-content-between");
+    .logo-info-wrapper {
+      @include extend("d-flex justify-content-between");
+      > svg {
+        width: 7em;
+        height: 5em;
+      }
+    }
+    .file-info-panel {
+      @include extend("d-flex pt-2 align-items-center justify-content-between");
+      .edit {
+        @include extend("btn-reset p-0 m-0");
+      }
+      .file-name {
+        &:hover {
+          // Styles for hover state
+          text-decoration: underline;
+        }
+      }
+
+      .document-location {
+        // Styles for the document location link
+        color: #0984e3;
+        text-decoration: none;
+        // Add any other styles for the document location link
+
+        &:hover {
+          // Styles for hover state
+          text-decoration: underline;
+        }
+      }
+
+      .icon-dot {
+        // Styles for the dot icon
+        color: #95a5a6;
+        font-size: 0.75em;
+        // Add any other styles for the dot icon
+      }
+      .icon-clock {
+        color: #0984e3;
+      }
+
+      .modified-label,
+      .modified-date {
+        color: #95a5a6;
+      }
+    }
+  }
+  .file-manager-container {
+    @include extend("d-flex align-items-center");
+    .bar {
+      margin-left: 0.25em;
+      margin-right: 0.25em;
+    }
+    .button-group {
+      @include extend("d-flex align-items-center justify-content-between");
+      &:first-child {
+        flex: 2 1 33.33%;
+        button {
+          $light: #dfe6e9;
+          background-color: $light;
+          &:hover {
+            background-color: darken($light, 10%);
+          }
+          &:active {
+            background-color: lighten($light, 3%);
+          }
+        }
+      }
+      &:last-child {
+        flex: 1 1 26.665%;
+        .trail-button {
+          &.premium {
+            color: #ffd700;
+          }
+        }
+        $red: #d63031;
+        button:not(.done-button) {
+          border: 1px solid $red;
+          &:hover {
+            background-color: lighten($red, 40%);
+          }
+        }
+        .done-button {
+          @include extend("px-1 text-white");
+          background-color: $red;
+          &:hover {
+            background-color: darken($red, 10%);
+          }
+        }
+      }
+
+      button {
+        @include extend(
+          "d-flex align-items-center justify-content-between btn-reset p-1 rounded-1"
+        );
+        transition: 0.3s;
+      }
+    }
+
+    flex: 0 1 39.33%;
+    @media (min-width: 1273px) {
+      flex: 0 1 28.33%;
+    }
+  }
+}

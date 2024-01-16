@@ -23,7 +23,7 @@ const FileManager: React.FC<FileManagerProps> = () => {
           Find Another Form
         </button>
       </div>
-      |
+      <span className="bar">|</span>
       <div className="button-group">
         <button className="save-button">
           <GoDownload />
