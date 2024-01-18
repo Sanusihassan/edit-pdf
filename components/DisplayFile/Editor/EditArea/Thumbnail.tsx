@@ -1,3 +1,4 @@
+// i want to render the entire page in the canvas i.e in the 132X150 but right now some content is clipped this is not what i want.
 import React, { useEffect, useRef } from "react";
 import {
   ChevronUpIcon,
@@ -14,8 +15,6 @@ interface ThumbnailProps {
 
 export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const desiredWidth = 132; // Set the desired width for the thumbnail
-  const desiredHeight = 150; // Set the desired height for the thumbnail
 
   useEffect(() => {
     const fileReader = new FileReader();
@@ -26,28 +25,22 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
         const loadingTask = getDocument({ data: typedArray });
         const pdfDoc: PDFDocumentProxy = await loadingTask.promise;
         const page = await pdfDoc.getPage(pageNumber);
-        const viewport = page.getViewport({ scale: 1 });
-
-        // Calculate the scale necessary to fit the page within the canvas dimensions
-        const scaleX = desiredWidth / viewport.width;
-        const scaleY = desiredHeight / viewport.height;
-        const scale = Math.max(scaleX, scaleY); // We use Math.max to simulate "cover" behavior
-
-        // Calculate the position to center the page within the canvas
-        const offsetX = (desiredWidth - viewport.width * scale) / 2;
-        const offsetY = (desiredHeight - viewport.height * scale) / 2;
 
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (context && canvas) {
-          canvas.width = desiredWidth;
-          canvas.height = desiredHeight;
+          // Calculate scale based on canvas dimensions
+          const scaleWidth =
+            canvas.width / page.getViewport({ scale: 1 }).width;
+          const scaleHeight =
+            canvas.height / page.getViewport({ scale: 1 }).height;
+          const scale = Math.min(scaleWidth, scaleHeight);
 
-          // Clear the canvas in case of re-render
-          context.clearRect(0, 0, desiredWidth, desiredHeight);
+          const viewport = page.getViewport({ scale });
 
-          // Set the transform to scale and translate the canvas context
-          context.setTransform(scale, 0, 0, scale, offsetX, offsetY);
+          // Set canvas dimensions based on viewport dimensions
+          // canvas.width = viewport.width;
+          // canvas.height = viewport.height;
 
           const renderContext = {
             canvasContext: context,
@@ -55,9 +48,6 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
           };
 
           await page.render(renderContext).promise;
-
-          // Reset the transform to avoid affecting other canvas operations
-          context.setTransform(1, 0, 0, 1, 0, 0);
         }
       } catch (error) {
         console.error("Error loading PDF: ", error);
@@ -70,11 +60,7 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
   return (
     <div className="thumbnail">
       <span className="page-number">{pageNumber}</span>
-      <canvas
-        width={desiredWidth}
-        height={desiredHeight}
-        ref={canvasRef}
-      ></canvas>
+      <canvas width={132} height={150} ref={canvasRef}></canvas>
       <div className="page-settings">
         <button className="move-up" disabled>
           <ChevronUpIcon className="icon" />

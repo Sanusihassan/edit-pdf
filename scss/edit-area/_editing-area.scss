@@ -1,3 +1,30 @@
 section.editing-area {
+  background-color: $dark;
   flex: 1;
+  canvas {
+    outline: 1px solid;
+  }
+  .page-toolbar {
+    @include extend("d-flex justify-content-between align-items-center py-2");
+    color: white;
+    %button {
+      @include extend("btn-reset transition rounded py-1 text-white");
+      padding-left: 0.78em;
+      padding-right: 0.78em;
+      border: 0.5px solid transparent;
+      font-size: 1.025em;
+      &:hover {
+        background-color: darken($dark, 28%);
+        border-color: $red;
+      }
+    }
+    .editor-add-blank-page {
+      button {
+        @extend %button;
+      }
+    }
+    .more-tools {
+      @extend %button;
+    }
+  }
 }

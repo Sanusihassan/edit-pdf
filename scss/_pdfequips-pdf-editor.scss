@@ -45,8 +45,30 @@
   .edit-area {
     @include extend("d-flex");
     > * {
-      outline: 1px solid;
       min-height: 100vh;
+    }
+    .add-blank-page {
+
+      .manager-add-blank-page {
+        @include extend("d-flex justify-content-between align-items-center py-1 transition");
+        cursor: pointer;
+        opacity: 0;
+        &:hover {
+          opacity: 1;
+        }
+        .bar {
+          display: inline-flex;
+          flex: 0 1 39%;
+          height: 2px;
+          background-color: $red;
+        }
+        button {
+          @include extend("btn-reset text-white rounded-circle p-0 d-flex justify-content-center align-items-center");
+          width: 1em;
+          height: 1em;
+          background-color: $red;
+        }
+      }
     }
     @import "./edit-area/page-manager";
     @import "./edit-area/editing-area";

@@ -3,6 +3,7 @@ import { GrDocumentConfig } from "react-icons/gr";
 import { Thumbnail } from "./Thumbnail";
 import { useFileStore } from "@/src/file-store";
 import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
+import { AddBlankPage } from "./AddBlankPage";
 
 export const PageManager = () => {
   const { files } = useFileStore();
@@ -40,7 +41,10 @@ export const PageManager = () => {
       </header>
       <section className="body">
         {[...Array(pageCount)].map((_, i) => (
-          <Thumbnail key={i + 1} pageNumber={i + 1} pdf={files[0]} />
+          <>
+            <Thumbnail key={i + 1} pageNumber={i + 1} pdf={files[0]} />
+            <AddBlankPage layout="manager" />
+          </>
         ))}
       </section>
     </aside>

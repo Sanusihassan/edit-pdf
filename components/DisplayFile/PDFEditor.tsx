@@ -11,7 +11,7 @@ export const PDFEditor = () => {
         <Tools />
         <div className="edit-area">
           <PageManager />
-          <PDFEditingArea />
+          <PDFEditingArea  />
         </div>
       </div>
     </>
