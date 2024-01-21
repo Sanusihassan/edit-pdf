@@ -1,19 +1,18 @@
-// the render quality of the pdf is not good, what i want is height quality image maybe because we are using <canvas> is there another way to make it really high quality?
 import { useEffect, useRef, useState } from "react";
 import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import { useFileStore } from "@/src/file-store";
-import axios from "axios";
+
 import { PageToolBar } from "./PageToolBar";
+import axios from "axios";
 
 export const PDFEditingArea = () => {
   const { files } = useFileStore();
-  const editingAreaRef = useRef<HTMLElement>(null);
+  const editingAreaRef = useRef<HTMLIFrameElement>(null);
   const [numPages, setNumPages] = useState(0);
-  const [html, setHtml] = useState("");
-
   const pdf = files[0];
+  const [html, setHtml] = useState("");
   // useEffect(() => {
-  //   const editingArea = editingAreaRef.current;
+  //   const editingArea = iframe;
 
   //   if (pdf && editingArea) {
   //     const fileReader = new FileReader();
@@ -82,19 +81,33 @@ export const PDFEditingArea = () => {
 
       // Set the HTML string in the state
       setHtml(htmlString);
+      const iframe = editingAreaRef.current;
+      if (iframe) {
+        iframe.addEventListener("load", () => {
+          // Access the contentDocument of the iframe
+          var iframeDocument =
+            iframe?.contentDocument || iframe?.contentWindow?.document;
+          iframeDocument?.documentElement?.setAttribute(
+            "contenteditable",
+            "true"
+          );
+          iframeDocument?.documentElement.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              //   get the current element and double it's css top property
+            }
+          });
+        });
+      }
     })();
   }, [pdf]);
 
   return (
-    <section className="editing-area" ref={editingAreaRef}>
-      <PageToolBar pageNumber={numPages} />
+    <section className="editing-area">
+      {/* <PageToolBar pageNumber={pageNumber} /> */}
       <iframe
-        contentEditable
         srcDoc={html}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
+        ref={editingAreaRef}
+        style={{ width: "100%", height: "100%" }}
       ></iframe>
     </section>
   );

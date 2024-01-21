@@ -21,7 +21,7 @@
     "next": "13.4.19",
     "pdf-lib": "^1.17.1",
     "pdfequips-navbar": "^2.0.6",
-    "pdfjs-dist": "^3.8.162",
+    "pdfjs-dist": "^3.11.174",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.8.0",
@@ -35,6 +35,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/fabric": "^5.3.6",
     "next-transpile-modules": "^10.0.1",
     "sass": "^1.66.1",
     "terser-webpack-plugin": "^5.3.9"

@@ -26,7 +26,7 @@ export const BtnStack = ({
 
   return (
     <button
-      className={`btn-stack ${id === activeButton ? "active" : ""}`}
+      className={`btn-stack${id === activeButton ? " active" : ""}`}
       onClick={handleClick}
     >
       {children}

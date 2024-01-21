@@ -6,6 +6,7 @@
   @import "./header-tools";
   .pdf-tools {
     $bg: #2c3e50;
+    overflow: auto;
     background-color: lighten($bg, 50%);
     @include extend("py-1");
     @include extend("d-flex justify-content-between");
