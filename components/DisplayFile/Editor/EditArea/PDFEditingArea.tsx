@@ -4,6 +4,7 @@ import { useFileStore } from "@/src/file-store";
 
 import { PageToolBar } from "./PageToolBar";
 import axios from "axios";
+import { initEditor } from "@/src/initEditor";
 
 export const PDFEditingArea = () => {
   const { files } = useFileStore();
@@ -82,22 +83,7 @@ export const PDFEditingArea = () => {
       // Set the HTML string in the state
       setHtml(htmlString);
       const iframe = editingAreaRef.current;
-      if (iframe) {
-        iframe.addEventListener("load", () => {
-          // Access the contentDocument of the iframe
-          var iframeDocument =
-            iframe?.contentDocument || iframe?.contentWindow?.document;
-          iframeDocument?.documentElement?.setAttribute(
-            "contenteditable",
-            "true"
-          );
-          iframeDocument?.documentElement.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-              //   get the current element and double it's css top property
-            }
-          });
-        });
-      }
+      initEditor(iframe);
     })();
   }, [pdf]);
 
