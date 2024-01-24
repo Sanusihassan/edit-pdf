@@ -4,7 +4,6 @@ import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import { TextManipulationTools } from "./TextManipulationTools";
 import { Settings } from "./Settings";
 import { BtnStack } from "./BtnStack";
-
 export const Tools = () => {
   return (
     <>

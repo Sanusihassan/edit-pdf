@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GrDocumentConfig } from "react-icons/gr";
 import { Thumbnail } from "./Thumbnail";
 import { useFileStore } from "@/src/file-store";
 import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import { AddBlankPage } from "./AddBlankPage";
+import { ToolState } from "@/src/store";
+import { useSelector } from "react-redux";
 
 export const PageManager = () => {
   const { files } = useFileStore();
   const [pageCount, setPageCount] = useState(0);
-
+  const pageManagerRef = useRef<HTMLElement>(null);
+  const headerHeight = useSelector(
+    (state: { tool: ToolState }) => state.tool.headerHeight
+  );
   useEffect(() => {
     const pdf = files[0];
     if (pdf) {
@@ -29,10 +34,26 @@ export const PageManager = () => {
 
       fileReader.readAsArrayBuffer(pdf);
     }
+
+    function scrollHandler() {
+      const pos = window.scrollY || window.pageYOffset;
+      const el = pageManagerRef.current;
+      if (el && headerHeight) {
+        if (pos >= headerHeight) {
+          el.style.top = "0";
+        } else {
+          el.style.top = `${headerHeight - pos}px`;
+        }
+      }
+    }
+    window.addEventListener("scroll", scrollHandler);
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
   }, [files]);
 
   return (
-    <aside className="page-manager">
+    <aside className="page-manager" ref={pageManagerRef}>
       <header>
         <div className="pages">Pages</div>
         <button className="re-arrange">

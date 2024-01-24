@@ -14,6 +14,7 @@ export interface ToolState {
   nav_height: number;
   activeButton: string | null;
   fileName: string;
+  headerHeight: number | null;
 }
 
 const initialState: ToolState = {
@@ -30,6 +31,7 @@ const initialState: ToolState = {
   nav_height: 0,
   activeButton: null,
   fileName: "",
+  headerHeight: null,
 };
 
 const toolSlice = createSlice({
@@ -82,6 +84,9 @@ const toolSlice = createSlice({
     setFileName: (state, action: PayloadAction<string>) => {
       state.fileName = action.payload;
     },
+    setHeaderHeight: (state, action: PayloadAction<number | null>) => {
+      state.headerHeight = action.payload;
+    },
   },
 });
 
@@ -100,6 +105,7 @@ export const {
   setNavHeight,
   setActiveButton,
   setFileName,
+  setHeaderHeight,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

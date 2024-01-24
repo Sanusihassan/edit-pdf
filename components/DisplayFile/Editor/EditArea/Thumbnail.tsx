@@ -58,7 +58,7 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
   }, [pdf, pageNumber]);
 
   return (
-    <div className="thumbnail">
+    <a className="thumbnail" href={`#page_${pageNumber - 1}`}>
       <span className="page-number">{pageNumber}</span>
       <canvas width={132} height={150} ref={canvasRef}></canvas>
       <div className="page-settings">
@@ -75,6 +75,6 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({ pdf, pageNumber }) => {
           <FaEllipsisH className="icon" />
         </button>
       </div>
-    </div>
+    </a>
   );
 };

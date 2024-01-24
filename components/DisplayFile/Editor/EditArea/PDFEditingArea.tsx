@@ -8,60 +8,10 @@ import { initEditor } from "@/src/initEditor";
 
 export const PDFEditingArea = () => {
   const { files } = useFileStore();
-  const editingAreaRef = useRef<HTMLIFrameElement>(null);
-  const [numPages, setNumPages] = useState(0);
+  const editingAreaRef = useRef<HTMLDivElement>(null);
+  // const [numPages, setNumPages] = useState(0);
   const pdf = files[0];
   const [html, setHtml] = useState("");
-  // useEffect(() => {
-  //   const editingArea = iframe;
-
-  //   if (pdf && editingArea) {
-  //     const fileReader = new FileReader();
-
-  //     fileReader.onload = async (event) => {
-  //       try {
-  //         const typedArray = new Uint8Array(
-  //           event.target?.result as ArrayBuffer
-  //         );
-  //         const loadingTask = getDocument({ data: typedArray });
-  //         const pdfDoc: PDFDocumentProxy = await loadingTask.promise;
-  //         setNumPages(pdfDoc.numPages);
-
-  //         for (
-  //           let pageNumber = 1;
-  //           pageNumber <= pdfDoc.numPages;
-  //           pageNumber++
-  //         ) {
-  //           const page = await pdfDoc.getPage(pageNumber);
-  //           const viewport = page.getViewport({ scale: 1 });
-  //           const scale = editingArea.clientWidth / viewport.width;
-  //           const scaledViewport = page.getViewport({ scale });
-
-  //           const canvas = document.createElement("canvas");
-  //           canvas.width = editingArea.clientWidth;
-  //           canvas.height = scaledViewport.height;
-  //           const context = canvas.getContext("2d");
-
-  //           if (context) {
-  //             // Render the page into the canvas context
-  //             const renderContext = {
-  //               canvasContext: context,
-  //               viewport: scaledViewport,
-  //             };
-  //             await page.render(renderContext).promise;
-
-  //             // Append the canvas to the editing area
-  //             editingArea.appendChild(canvas);
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error loading PDF: ", error);
-  //       }
-  //     };
-
-  //     fileReader.readAsArrayBuffer(pdf);
-  //   }
-  // }, [pdf]);
 
   useEffect(() => {
     (async () => {
@@ -90,11 +40,18 @@ export const PDFEditingArea = () => {
   return (
     <section className="editing-area">
       {/* <PageToolBar pageNumber={pageNumber} /> */}
-      <iframe
+      {/* <iframe
         srcDoc={html}
         ref={editingAreaRef}
         style={{ width: "100%", height: "100%" }}
-      ></iframe>
+      ></iframe> */}
+      <div
+      className="wysiwyg-editor"
+        dangerouslySetInnerHTML={{
+          __html: html,
+        }}
+        ref={editingAreaRef}
+      />
     </section>
   );
 };

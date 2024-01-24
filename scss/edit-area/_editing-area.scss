@@ -1,8 +1,9 @@
 section.editing-area {
   background-color: $dark;
+  margin-left: 13.5%;
   flex: 1;
-  iframe {
-    position: relative;
+  .wysiwyg-editor {
+    zoom: 1.3
   }
   .page-toolbar {
     @include extend("d-flex justify-content-between align-items-center py-2");
