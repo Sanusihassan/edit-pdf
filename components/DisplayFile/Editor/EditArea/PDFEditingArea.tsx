@@ -70,7 +70,7 @@ export const PDFEditingArea = () => {
         formData.append("files", files[i]);
       }
       const response = await axios.post(
-        "https://8000-sanusihassa-pdfequipsap-7mfai37z239.ws-eu107.gitpod.io/api/pdf-to-html",
+        "https://5000-sanusihassa-pdftohtmlco-ab7rnzkad6z.ws-eu107.gitpod.io/convert-to-html",
         formData,
         {
           responseType: "arraybuffer",

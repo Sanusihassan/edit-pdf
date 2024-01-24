@@ -1,8 +1,8 @@
 section.editing-area {
   background-color: $dark;
   flex: 1;
-  canvas {
-    outline: 1px solid;
+  iframe {
+    position: relative;
   }
   .page-toolbar {
     @include extend("d-flex justify-content-between align-items-center py-2");
