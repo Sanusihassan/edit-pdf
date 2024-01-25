@@ -4,11 +4,11 @@ section.editing-area {
   flex: 1;
   .wysiwyg-editor {
     zoom: 1.3;
+    *:focus {
+      outline: none;
+    }
     .page {
       border: none !important;
-      *:focus {
-        outline: none;
-      }
     }
     .editable-element {
       position: absolute;

@@ -1,23 +1,14 @@
-import { addEditableElement } from "./WYSIWYG/addEditableElement";
+import { enableEditing } from "./WYSIWYG/enableEditing";
+let current: HTMLElement | null = null;
 
 export const WYSIWYGFunctionality = (editor: HTMLDivElement | null) => {
-  // const nodes = editor?.querySelectorAll(".page *");
-
-  // nodes?.forEach((el) => {
-  //   const hasTextChild = Array.from(el.childNodes).some(
-  //     (child) => child.nodeType === Node.TEXT_NODE
-  //   );
-  //   // If the element has a child of type text, set contenteditable to true
-  //   if (hasTextChild) {
-      // el.setAttribute("contenteditable", "true");
-      // (el as HTMLElement).style.whiteSpace = "nowrap";
-  //   }
-  // });
-
-
   // enable wysiwyg
+  editor?.querySelector(".page")?.addEventListener("mousemove", handleEdit);
+};
 
-  
-
-  addEditableElement(editor);
+export const handleEdit = (e: Event) => {
+  current = e.target as HTMLElement;
+  if (current) {
+    enableEditing(current);
+  }
 };

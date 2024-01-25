@@ -26,16 +26,5 @@ function addTextAtMousePosition(event: MouseEvent) {
   });
 }
 
-export const addEditableElement = (editor: HTMLDivElement | null) => {
-  editor?.addEventListener("click", (e) => {
-    const el = e.target as HTMLElement;
-    if (el) {
-      if (el.innerText.trim() === "") {
-          console.log(el);
-        //   addTextAtMousePosition(e);
-      } else {
-        enableEditing(el);
-      }
-    }
-  });
-};
+// export const addEditableElement = (editor: HTMLDivElement | null) => {
+// };
