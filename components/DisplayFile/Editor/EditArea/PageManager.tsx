@@ -50,7 +50,7 @@ export const PageManager = () => {
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [files]);
+  }, [files, headerHeight]);
 
   return (
     <aside className="page-manager" ref={pageManagerRef}>
@@ -62,10 +62,10 @@ export const PageManager = () => {
       </header>
       <section className="body">
         {[...Array(pageCount)].map((_, i) => (
-          <>
-            <Thumbnail key={i + 1} pageNumber={i + 1} pdf={files[0]} />
+          <div key={i + 1}>
+            <Thumbnail pageNumber={i + 1} pdf={files[0]} />
             <AddBlankPage layout="manager" />
-          </>
+          </div>
         ))}
       </section>
     </aside>

@@ -73,10 +73,4 @@
     @import "./edit-area/page-manager";
     @import "./edit-area/editing-area";
   }
-  .page {
-    border: none !important;
-  }
-  .page *:focus {
-    outline: none;
-  }
 }

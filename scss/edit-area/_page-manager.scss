@@ -2,6 +2,7 @@ aside.page-manager {
   flex: 0 1 13.5%;
   @include extend("card rounded-0 position-fixed");
   overflow-y: auto;
+  overflow-x: hidden;
   // top: 0;
   // padding-right: 13.5%;
   header {

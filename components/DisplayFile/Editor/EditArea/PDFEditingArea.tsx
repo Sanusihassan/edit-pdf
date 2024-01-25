@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { getDocument, PDFDocumentProxy } from "pdfjs-dist";
 import { useFileStore } from "@/src/file-store";
-
-import { PageToolBar } from "./PageToolBar";
 import axios from "axios";
-import { initEditor } from "@/src/initEditor";
+import { WYSIWYGFunctionality } from "@/src/WYSIWYGFunctionality";
 
 export const PDFEditingArea = () => {
   const { files } = useFileStore();
@@ -32,10 +29,10 @@ export const PDFEditingArea = () => {
 
       // Set the HTML string in the state
       setHtml(htmlString);
-      const iframe = editingAreaRef.current;
-      initEditor(iframe);
+      const editor = editingAreaRef.current;
+      WYSIWYGFunctionality(editor);
     })();
-  }, [pdf]);
+  }, [pdf, editingAreaRef.current]);
 
   return (
     <section className="editing-area">
