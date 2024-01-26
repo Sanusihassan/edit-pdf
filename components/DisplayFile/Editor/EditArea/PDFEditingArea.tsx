@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useFileStore } from "@/src/file-store";
 import axios from "axios";
-import { WYSIWYGFunctionality, handleEdit } from "@/src/WYSIWYGFunctionality";
+import {
+  WYSIWYGFunctionality,
+  handleEdit,
+} from "@/src/WYSIWYG/WYSIWYGFunctionality";
 
 export const PDFEditingArea = () => {
   const { files } = useFileStore();
@@ -24,7 +27,7 @@ export const PDFEditingArea = () => {
       //   }
       // );
       const response = await axios.get(
-        "https://3000-sanusihassa-pdftohtmlco-ab7rnzkad6z.ws-eu107.gitpod.io/Resume"
+        "https://3000-falfalayegpt-editpdfapi-zo546p9olot.ws-eu107.gitpod.io/Resume"
       );
       console.log(response);
       // Convert the ArrayBuffer to a string using TextDecoder
