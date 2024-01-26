@@ -34,22 +34,24 @@ export const PageManager = () => {
 
       fileReader.readAsArrayBuffer(pdf);
     }
-
-    function scrollHandler() {
-      const pos = window.scrollY || window.pageYOffset;
-      const el = pageManagerRef.current;
-      if (el && headerHeight) {
-        if (pos >= headerHeight) {
-          el.style.top = "0";
-        } else {
-          el.style.top = `${headerHeight - pos}px`;
-        }
-      }
+    if(pageManagerRef.current) {
+      pageManagerRef.current.style.top = `${headerHeight}px`;
     }
-    window.addEventListener("scroll", scrollHandler);
-    return () => {
-      window.removeEventListener("scroll", scrollHandler);
-    };
+    // function scrollHandler() {
+    //   const pos = window.scrollY || window.pageYOffset;
+    //   const el = pageManagerRef.current;
+    //   if (el && headerHeight) {
+    //     if (pos >= headerHeight) {
+    //       el.style.top = "0";
+    //     } else {
+    //       el.style.top = `${headerHeight - pos}px`;
+    //     }
+    //   }
+    // }
+    // window.addEventListener("scroll", scrollHandler);
+    // return () => {
+    //   window.removeEventListener("scroll", scrollHandler);
+    // };
   }, [files, headerHeight]);
 
   return (
