@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Tool } from "./WYSIWYG/tools/createTool";
 export type toolType = "pages" |
 "undo" |
 "redo" |
@@ -52,7 +53,7 @@ const initialState: ToolState = {
   nav_height: 0,
   currentTool: null,
   fileName: "",
-  headerHeight: null,
+  headerHeight: null
 };
 
 const toolSlice = createSlice({
@@ -107,7 +108,7 @@ const toolSlice = createSlice({
     },
     setHeaderHeight: (state, action: PayloadAction<number | null>) => {
       state.headerHeight = action.payload;
-    },
+    }
   },
 });
 

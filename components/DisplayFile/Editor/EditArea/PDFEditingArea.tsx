@@ -7,19 +7,23 @@ import {
 } from "@/src/WYSIWYG/WYSIWYGFunctionality";
 import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
-import { Tool, createTool } from "@/src/WYSIWYG/tools/createTool";
+import { createTool } from "@/src/WYSIWYG/tools/createTool";
 
 export const PDFEditingArea = () => {
-  const { files } = useFileStore();
+  const { files, activeTool, setActiveTool } = useFileStore();
   const editingAreaRef = useRef<HTMLDivElement>(null);
   // const [numPages, setNumPages] = useState(0);
   const currentTool = useSelector(
     (state: { tool: ToolState }) => state.tool.currentTool
   );
+  
   const pdf = files[0];
   const [html, setHtml] = useState("");
   const editor = editingAreaRef.current;
-  const tool = createTool(editor);
+  const tool = createTool(editor, setActiveTool);
+  if (activeTool) {
+    activeTool.stop(editor);
+  }
   useEffect(() => {
     (async () => {
       const formData = new FormData();
@@ -34,7 +38,7 @@ export const PDFEditingArea = () => {
       //   }
       // );
       const response = await axios.get(
-        "https://3000-falfalayegpt-editpdfapi-zo546p9olot.ws-eu107.gitpod.io/Resume"
+        "/Resume.html"
       );
       // Convert the ArrayBuffer to a string using TextDecoder
       // const decoder = new TextDecoder("utf-8");
@@ -48,9 +52,12 @@ export const PDFEditingArea = () => {
         editor
           ?.querySelector(".page")
           ?.removeEventListener("mousemove", handleEdit);
+          // if(activeTool) {
+          //   activeTool.stop(editor)
+          // }
       };
     })();
-  }, [pdf, editingAreaRef.current, currentTool, tool]);
+  }, [pdf, editingAreaRef.current, currentTool]);
 
   return (
     <section className="editing-area">

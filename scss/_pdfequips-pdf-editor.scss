@@ -50,7 +50,7 @@
     }
   }
   .edit-area {
-    @include extend("d-flex");
+    @include extend("d-flex justify-content-between");
     .add-blank-page {
       .manager-add-blank-page {
         @include extend(
@@ -76,6 +76,11 @@
           background-color: $red;
         }
       }
+    }
+    .gutter {
+      flex: 0 0 14%;
+      opacity: 0;
+      visibility: hidden;
     }
     @import "./edit-area/page-manager";
     @import "./edit-area/editing-area";

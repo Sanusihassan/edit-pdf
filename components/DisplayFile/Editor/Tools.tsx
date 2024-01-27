@@ -13,11 +13,15 @@ export const Tools = () => {
             pages
             <DocumentDuplicateIcon className="icon" />
           </BtnStack>
-          <BtnStack id="undo">
+          <BtnStack id="undo" cb={() => {
+            document.execCommand('undo', false, "null");
+          }}>
             undo
             <FaUndo className="icon" />
           </BtnStack>
-          <BtnStack id="redo">
+          <BtnStack id="redo" cb={() => {
+            document.execCommand('redo', false, "null");
+          }}>
             redo
             <FaRedo className="icon" />
           </BtnStack>

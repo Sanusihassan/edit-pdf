@@ -1,6 +1,5 @@
 aside.page-manager {
-  flex: 0 1 13.5%;
-  min-width: 13.5%;
+  min-width: 14%;
   @include extend("card rounded-0 position-fixed");
   height: 100%;
   overflow: auto;

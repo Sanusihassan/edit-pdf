@@ -8,11 +8,7 @@ export interface Tool {
 
 export type PDFToolFunction = (editor: HTMLDivElement | null) => void;
 // Toolbar as a stateful object
-export const createTool: (editor: HTMLDivElement | null) => {
-  setTool: (tool: Tool) => void;
-  executeCurrentTool: () => void;
-  currentTool: Tool | null;
-} = (editor: HTMLDivElement | null) => {
+export const createTool = (editor: HTMLDivElement | null, setActiveTool: (tool: Tool) => void) => {
   let currentTool: Tool | null = null;
 
   const setTool = (tool: Tool) => {
@@ -21,6 +17,7 @@ export const createTool: (editor: HTMLDivElement | null) => {
       currentTool.stop && currentTool.stop(editor);
     }
     editor?.removeEventListener("mousemove", handleEdit);
+    setActiveTool(tool)
     currentTool = tool;
   };
 
@@ -33,8 +30,7 @@ export const createTool: (editor: HTMLDivElement | null) => {
 
   return {
     setTool,
-    executeCurrentTool,
-    currentTool
+    executeCurrentTool
   };
 };
 

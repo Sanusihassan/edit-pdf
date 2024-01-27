@@ -9,7 +9,7 @@ export const BtnStack = ({
 }: {
   children: React.ReactNode;
   id: string;
-  cb?: () => void;
+  cb?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
   const dispatch = useDispatch();
 
@@ -17,14 +17,14 @@ export const BtnStack = ({
     (state: { tool: ToolState }) => state.tool.currentTool
   );
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (currentTool) {
       dispatch(setCurrentTool(null));
     } else {
       dispatch(setCurrentTool(id as toolType));
     }
     if (cb) {
-      cb();
+      cb(e);
     }
   };
   

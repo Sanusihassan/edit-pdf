@@ -9,12 +9,11 @@ export const WYSIWYGFunctionality = (
   tool: createToolRetVal
 ) => {
   if (!currentTool) {
-    // enable wysiwyg
+    // enable editing
     editor?.addEventListener("mousemove", handleEdit);
     return;
   }
-  console.log("current working tool is:", tool.currentTool);
-  // disable wysiwyg
+  // disable editing
   editor?.removeEventListener("mousemove", handleEdit);
   switch (currentTool) {
     case "Text":

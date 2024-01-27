@@ -19,6 +19,7 @@ import { PiTextboxLight } from "react-icons/pi";
 import { RiText } from "react-icons/ri";
 import { RxDrawingPin } from "react-icons/rx";
 import { BtnStack } from "./BtnStack";
+import ShapesIcon from "@/components/icons/ShapesIcon";
 
 export const EditTools = () => {
   return (
@@ -39,6 +40,10 @@ export const EditTools = () => {
         Date
         <CalendarDaysIcon className="icon" />
       </BtnStack>
+      {/* <BtnStack id="shapes">
+        <ShapesIcon />
+        Shapes
+      </BtnStack> */}
       <BtnStack id="Cross">
         Cross
         <XMarkIcon className="icon" />

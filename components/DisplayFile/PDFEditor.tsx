@@ -9,6 +9,7 @@ export const PDFEditor = () => {
         <Header />
         <div className="edit-area">
           <PageManager />
+          <div className="gutter"></div>
           <PDFEditingArea />
         </div>
       </div>
