@@ -5,6 +5,7 @@ section.editing-area {
   flex: 1;
   .wysiwyg-editor {
     zoom: 1.3;
+    // position: relative;
     *:focus {
       outline: none;
     }
@@ -12,9 +13,14 @@ section.editing-area {
       border: none !important;
     }
     .editable-element {
-      position: absolute;
+      @include extend("position-absolute");
       border: 1px solid #ccc;
       padding: 5px;
+    }
+    .text {
+      border: 1px solid red;
+      min-width: 1ch;
+      @include extend("position-absolute");
     }
   }
   .page-toolbar {
