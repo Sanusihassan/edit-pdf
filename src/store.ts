@@ -1,5 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+export type toolType = "pages" |
+"undo" |
+"redo" |
+"Text" |
+"Sign" |
+"Initials" |
+"Date" |
+"Cross" |
+"Check" |
+"Circle" |
+"Image" |
+"TBox" |
+"Sticky" |
+"Erase" |
+"Highlight" |
+"Blackout" |
+"Tools" |
+"Comment" |
+"Replace" |
+"Search" |
+"Settings" |
+"HideMenu";
 export interface ToolState {
   showTool: boolean;
   isSubmitted: boolean;
@@ -12,7 +33,7 @@ export interface ToolState {
   showDownloadBtn: boolean;
   showOptions: boolean;
   nav_height: number;
-  activeButton: string | null;
+  currentTool: toolType | null;
   fileName: string;
   headerHeight: number | null;
 }
@@ -29,7 +50,7 @@ const initialState: ToolState = {
   showDownloadBtn: false,
   showOptions: false,
   nav_height: 0,
-  activeButton: null,
+  currentTool: null,
   fileName: "",
   headerHeight: null,
 };
@@ -78,8 +99,8 @@ const toolSlice = createSlice({
     setNavHeight(state: ToolState, action: PayloadAction<number>) {
       state.nav_height = action.payload;
     },
-    setActiveButton: (state, action: PayloadAction<string | null>) => {
-      state.activeButton = action.payload;
+    setCurrentTool: (state, action: PayloadAction<toolType | null>) => {
+      state.currentTool = action.payload;
     },
     setFileName: (state, action: PayloadAction<string>) => {
       state.fileName = action.payload;
@@ -103,7 +124,7 @@ export const {
   setShowDownloadBtn,
   setShowOptions,
   setNavHeight,
-  setActiveButton,
+  setCurrentTool,
   setFileName,
   setHeaderHeight,
 } = toolSlice.actions;

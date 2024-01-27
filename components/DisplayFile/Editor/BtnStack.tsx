@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToolState, setActiveButton } from "@/src/store";
+import { ToolState, setCurrentTool, toolType } from "@/src/store";
 
 export const BtnStack = ({
   id,
@@ -13,21 +13,26 @@ export const BtnStack = ({
 }) => {
   const dispatch = useDispatch();
 
-  const activeButton = useSelector(
-    (state: { tool: ToolState }) => state.tool.activeButton
+  const currentTool = useSelector(
+    (state: { tool: ToolState }) => state.tool.currentTool
   );
 
   const handleClick = () => {
-    dispatch(setActiveButton(id));
+    if (currentTool) {
+      dispatch(setCurrentTool(null));
+    } else {
+      dispatch(setCurrentTool(id as toolType));
+    }
     if (cb) {
       cb();
     }
   };
-
+  
   return (
     <button
-      className={`btn-stack${id === activeButton ? " active" : ""}`}
+      className={`btn-stack${id === currentTool ? " active" : ""}`}
       onClick={handleClick}
+      title={id}
     >
       {children}
     </button>
