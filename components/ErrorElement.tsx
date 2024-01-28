@@ -3,7 +3,6 @@ import { ToolState } from "../src/store";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 
 const ErrorElement = () => {
-  // const dispatch = useDispatch();
   const showErrorMessage = useSelector(
     (state: { tool: ToolState }) => state.tool.showErrorMessage
   );

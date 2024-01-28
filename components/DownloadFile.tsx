@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { setShowDownloadBtn, type ToolState } from "../src/store";
+import { setField, type ToolState } from "../src/store";
 import { useDispatch } from "react-redux";
 import { Tooltip } from "react-tooltip";
 import type { downloadFile } from "../content";
@@ -50,7 +50,7 @@ const DownloadFile = ({
           data-tooltip-id="download-btn-tooltip"
           data-tooltip-place="left"
           onClick={() => {
-            dispatch(setShowDownloadBtn(false));
+            dispatch(setField({ showDownloadBtn: false }));
           }}
         >
           <ArrowLeftIcon className="icon" />

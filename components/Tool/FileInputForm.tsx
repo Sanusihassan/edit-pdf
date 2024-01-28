@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 // store
-import { ToolState, setClick, setFocus } from "../../src/store";
+import { ToolState, setField } from "../../src/store";
 import { handleUpload } from "../../src/handlers/handleUpload";
 import { handleChange } from "../../src/handlers/handleChange";
 import { useFileStore } from "../../src/file-store";
@@ -64,8 +64,8 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
     setSubmitBtn(submitBtn);
     setDownloadBtn(downloadBtn);
     window.addEventListener("focus", () => {
-      dispatch(setFocus(true));
-      dispatch(setClick(false));
+      dispatch(setField({ focus: true }));
+      dispatch(setField({ click: false }));
       // if (state.click !== state.focus && (!files.length || files.length == 1)) {
       // t = setInterval(() => {
       validateFiles(files, data.type, errors, dispatch, {
@@ -107,7 +107,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({
         className={`upload-btn btn btn-lg text-white position-relative overflow-hidden ${path}`}
         onClick={(e) => {
           e.stopPropagation();
-          dispatch(setClick(true));
+          dispatch(setField({ click: true }));
         }}
         role="button"
       >

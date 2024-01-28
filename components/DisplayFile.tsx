@@ -1,12 +1,5 @@
-import { useEffect, useState, RefObject, useContext } from "react";
+import { useEffect, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
-
-import {
-  getFileDetailsTooltipContent,
-  getFirstPageAsImage,
-  getPlaceHoderImageUrl,
-  isDraggableExtension,
-} from "../src/utils";
 
 import { useRouter } from "next/router";
 
@@ -16,7 +9,7 @@ import type { errors as _, edit_page } from "../content";
 import Files from "./DisplayFile/Files";
 // import { ToolStoreContext } from "../src/ToolStoreContext";
 import { useSelector, useDispatch } from "react-redux";
-import { ToolState, resetErrorMessage, setPath } from "../src/store";
+import { ToolState, resetErrorMessage, setField } from "../src/store";
 import { useFileStore } from "../src/file-store";
 import { PDFEditor } from "./DisplayFile/PDFEditor";
 type propTypes = {
@@ -58,7 +51,7 @@ const DisplayFile = ({
   useEffect(() => {
     // set the path if it's not already set
     if (statePath == "" || statePath !== path) {
-      dispatch(setPath(path));
+      dispatch(setField({ path }));
     }
     const isValid = validateFiles(files, extension, errors, dispatch, {
       path: statePath,
@@ -151,7 +144,7 @@ const DisplayFile = ({
         showSpinner={showSpinner}
         fileDetailProps={[pages, page, lang]}
       /> */}
-      <PDFEditor pdf={files[0]} />
+      <PDFEditor />
     </>
   );
 };

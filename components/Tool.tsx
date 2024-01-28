@@ -1,9 +1,8 @@
 // this is a very crowded tsx component, how can i simplify it further by separating the logics / parts to other components
-import { useCallback, useEffect, useRef, useState, useContext } from "react";
+import { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
-import EditPage from "./EditPage";
-import { ToolState, hideTool, setPath, setShowDownloadBtn } from "../src/store";
+import { ToolState, setField } from "../src/store";
 
 import { useRouter } from "next/router";
 import type { edit_page, tools, downloadFile } from "../content";
@@ -69,15 +68,15 @@ const Tool: React.FC<ToolProps> = ({
   // const dispatch = useDispatch();
   const router = useRouter();
   const handleHideTool = () => {
-    dispatch(dispatch(hideTool()));
+    dispatch(setField({ showTool: false }));
   };
   let path = router.asPath.replace(/^\/[a-z]{2}\//, "").replace(/^\//, "");
   useEffect(() => {
     // set the path if it has not been set yet
     if (statePath == "") {
-      dispatch(setPath(path));
+      dispatch(setField({ path }));
     }
-    dispatch(setShowDownloadBtn(false));
+    dispatch(setField({ showDownloadBtn: false }));
   }, []);
 
   // endpoint

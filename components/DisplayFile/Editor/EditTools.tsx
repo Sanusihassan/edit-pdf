@@ -1,6 +1,3 @@
-// i have all of these BtnStacks and i want to toggle active class on each when the the user clicks on them.
-// but i want to have the same logic in another component, meaning that i want a way to implement this feature for all of my components globally.
-// i already have redux and redux toolkit installed
 import HighlightIcon from "@/components/icons/Highlighter";
 import {
   CalendarDaysIcon,
@@ -19,8 +16,15 @@ import { PiTextboxLight } from "react-icons/pi";
 import { RiText } from "react-icons/ri";
 import { RxDrawingPin } from "react-icons/rx";
 import { BtnStack } from "./BtnStack";
+import ShapesIcon from "@/components/icons/ShapesIcon";
+import { BtnStackDropDownMenu } from "./BtnStackDropDownMenu";
+import { useEffect, useRef, useState } from "react";
+import { useFileStore } from "@/src/file-store";
+import { textToolHandler } from "@/src/WYSIWYG/tools/textTool";
 
 export const EditTools = () => {
+  const [showShapeTools, setShowShapeTools] = useState(false);
+
   return (
     <div className="b tool-row">
       <BtnStack id="Text">
@@ -39,18 +43,36 @@ export const EditTools = () => {
         Date
         <CalendarDaysIcon className="icon" />
       </BtnStack>
-      <BtnStack id="Cross">
-        Cross
-        <XMarkIcon className="icon" />
-      </BtnStack>
-      <BtnStack id="Check">
-        Check
-        <CheckIcon className="icon" />
-      </BtnStack>
-      <BtnStack id="Circle">
-        Circle
-        <FaRegCircle />
-      </BtnStack>
+      <div className="dropdown-menu-container">
+        <BtnStack
+          id="shapes"
+          cb={() => {
+            setShowShapeTools(!showShapeTools);
+          }}
+        >
+          <ShapesIcon />
+          Shapes
+        </BtnStack>
+        <BtnStackDropDownMenu
+          className={`btn-stack-dropdown-menu${
+            showShapeTools ? " visible" : ""
+          }`}
+        >
+          <BtnStack id="Cross">
+            Cross
+            <XMarkIcon className="icon" />
+          </BtnStack>
+          <BtnStack id="Check">
+            Check
+            <CheckIcon className="icon" />
+          </BtnStack>
+          <BtnStack id="Circle">
+            Circle
+            <FaRegCircle />
+          </BtnStack>
+        </BtnStackDropDownMenu>
+      </div>
+
       <BtnStack id="Image">
         Image
         <PhotoIcon className="icon" />

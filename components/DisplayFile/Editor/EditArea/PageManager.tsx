@@ -14,6 +14,9 @@ export const PageManager = () => {
   const headerHeight = useSelector(
     (state: { tool: ToolState }) => state.tool.headerHeight
   );
+  const showPages = useSelector(
+    (state: { tool: ToolState }) => state.tool.showPages
+  );
   useEffect(() => {
     const pdf = files[0];
     if (pdf) {
@@ -37,25 +40,10 @@ export const PageManager = () => {
     if(pageManagerRef.current) {
       pageManagerRef.current.style.top = `${headerHeight}px`;
     }
-    // function scrollHandler() {
-    //   const pos = window.scrollY || window.pageYOffset;
-    //   const el = pageManagerRef.current;
-    //   if (el && headerHeight) {
-    //     if (pos >= headerHeight) {
-    //       el.style.top = "0";
-    //     } else {
-    //       el.style.top = `${headerHeight - pos}px`;
-    //     }
-    //   }
-    // }
-    // window.addEventListener("scroll", scrollHandler);
-    // return () => {
-    //   window.removeEventListener("scroll", scrollHandler);
-    // };
-  }, [files, headerHeight]);
+  }, [files, headerHeight, showPages]);
 
   return (
-    <aside className="page-manager" ref={pageManagerRef}>
+    <aside className={`page-manager${showPages ? "" : " hide"}`} ref={pageManagerRef}>
       <header>
         <div className="pages">Pages</div>
         <button className="re-arrange">

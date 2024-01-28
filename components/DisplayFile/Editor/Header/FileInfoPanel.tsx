@@ -1,4 +1,4 @@
-import { setFileName } from "@/src/store";
+import { setField } from "@/src/store";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import React, { useRef, useState } from "react";
 import { FaRegClock } from "react-icons/fa";
@@ -37,7 +37,7 @@ const FileInfoPanel = () => {
         onInput={(e) => {
           const target = e.target as HTMLElement;
           if (target) {
-            dispatch(setFileName(target.textContent || ""));
+            dispatch(setField({ fileName: target.textContent || ""}));
           }
         }}
       >

@@ -12,7 +12,10 @@
   @import "./header-tools";
   .pdf-tools {
     $bg: #2c3e50;
-    overflow: auto;
+    @include md {
+      overflow-x: auto;
+    }
+    
     background-color: lighten($bg, 50%);
     @include extend("py-1");
     @include extend("d-flex justify-content-between");
@@ -31,16 +34,31 @@
     .d {
       flex: 0 1 8.2%;
     }
+    .dropdown-menu-container {
+      @include extend("position-relative");
+      .btn-stack-dropdown-menu {
+        @include extend("position-absolute d-flex justify-content-between bg-white");
+        top: 100%;
+        min-width: 100%;
+        opacity: 0;
+        &.visible {
+          opacity: 1
+        }
+      }
+    }
     .btn-stack {
       flex: 0 1 2.5rem;
       @include extend(
         "d-flex flex-column justify-content-between align-items-center btn-reset rounded-1 transition"
       );
+      user-select: none;
       background: transparent;
-
-      &:hover,
+      
       &.active {
         background-color: lighten($bg, 25%);
+      }
+      &:hover {
+        background-color: lighten($bg, 35%);
       }
       padding: 0.25rem;
       font-size: small;
@@ -50,7 +68,7 @@
     }
   }
   .edit-area {
-    @include extend("d-flex");
+    @include extend("d-flex justify-content-between");
     .add-blank-page {
       .manager-add-blank-page {
         @include extend(
@@ -75,6 +93,15 @@
           height: 1em;
           background-color: $red;
         }
+      }
+    }
+    .gutter {
+      flex: 0 0 14%;
+      opacity: 0;
+      z-index: -1;
+      visibility: hidden;
+      &.hide {
+        @include extend("d-none");
       }
     }
     @import "./edit-area/page-manager";

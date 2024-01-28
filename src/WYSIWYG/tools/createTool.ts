@@ -2,17 +2,28 @@ import { handleEdit } from "../WYSIWYGFunctionality";
 
 // Individual tool interfaces
 export interface Tool {
-  execute: PDFToolFunction;
+  execute(options?:any): void;
   stop: PDFToolFunction;
+  setEl: (el: HTMLDivElement | null) => void;
 }
+
+export abstract class BaseTool implements Tool {
+  protected el: HTMLElement | null = null;
+
+  public setEl(el: HTMLElement | null): void {
+    if (el) {
+      this.el = el;
+    }
+  }
+
+  abstract execute(options?: any): void;
+  abstract stop(editor: HTMLDivElement | null): void;
+}
+
 
 export type PDFToolFunction = (editor: HTMLDivElement | null) => void;
 // Toolbar as a stateful object
-export const createTool: (editor: HTMLDivElement | null) => {
-  setTool: (tool: Tool) => void;
-  executeCurrentTool: () => void;
-  currentTool: Tool | null;
-} = (editor: HTMLDivElement | null) => {
+export const createTool = (editor: HTMLDivElement | null, options?: any) => {
   let currentTool: Tool | null = null;
 
   const setTool = (tool: Tool) => {
@@ -24,17 +35,17 @@ export const createTool: (editor: HTMLDivElement | null) => {
     currentTool = tool;
   };
 
-  const executeCurrentTool = () => {
+  const executeCurrentTool = (options?: any): Tool | null => {
     if (currentTool) {
       // Execute the current tool
-      currentTool.execute && currentTool.execute(editor);
+      currentTool.execute && currentTool.execute(options);
     }
+    return currentTool;
   };
 
   return {
     setTool,
-    executeCurrentTool,
-    currentTool
+    executeCurrentTool
   };
 };
 
