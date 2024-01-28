@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useFileStore } from "@/src/file-store";
 import axios from "axios";
 import {
-  WYSIWYGFunctionality,
-  handleEdit,
-} from "@/src/WYSIWYG/WYSIWYGFunctionality";
+  disableEditing,
+  enableEditing,
+} from "@/src/WYSIWYG/enableEditing";
 import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
-import { createTool } from "@/src/WYSIWYG/tools/createTool";
 
 export const PDFEditingArea = () => {
-  const { files, activeTool, setActiveTool } = useFileStore();
+  const { files, setEditor } = useFileStore();
   const editingAreaRef = useRef<HTMLDivElement>(null);
   // const [numPages, setNumPages] = useState(0);
   const currentTool = useSelector(
@@ -20,11 +19,8 @@ export const PDFEditingArea = () => {
   const pdf = files[0];
   const [html, setHtml] = useState("");
   const editor = editingAreaRef.current;
-  const tool = createTool(editor, setActiveTool);
-  if (activeTool) {
-    activeTool.stop(editor);
-  }
   useEffect(() => {
+    setEditor(editor);
     (async () => {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
@@ -46,12 +42,11 @@ export const PDFEditingArea = () => {
 
       // Set the HTML string in the state
       setHtml(response.data);
-      WYSIWYGFunctionality(editor, currentTool, tool);
+      // WYSIWYGFunctionality(editor, currentTool);
+      enableEditing(editor);
       return () => {
         // clean ups:
-        editor
-          ?.querySelector(".page")
-          ?.removeEventListener("mousemove", handleEdit);
+        disableEditing(editor);
           // if(activeTool) {
           //   activeTool.stop(editor)
           // }

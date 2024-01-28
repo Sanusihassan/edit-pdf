@@ -19,12 +19,30 @@ import { BtnStack } from "./BtnStack";
 import ShapesIcon from "@/components/icons/ShapesIcon";
 import { BtnStackDropDownMenu } from "./BtnStackDropDownMenu";
 import { useState } from "react";
+import { useFileStore } from "@/src/file-store";
+import { textToolHandler } from "@/src/WYSIWYG/tools/textTool";
 
 export const EditTools = () => {
   const [showShapeTools, setShowShapeTools] = useState(false);
+  const { editor } = useFileStore();
+  const handleTextTool = (e: Event, page: Element) => {
+    textToolHandler(e, page);
+  };
   return (
     <div className="b tool-row">
-      <BtnStack id="Text">
+      <BtnStack
+        id="Text"
+        cb={() => {
+          editor?.querySelectorAll(".page").forEach((page) => {
+            page.addEventListener("click", (e) => handleTextTool(e, page));
+          });
+        }}
+        undo={() => {
+          editor?.querySelectorAll(".page").forEach((page) => {
+            page.removeEventListener("click", (e) => handleTextTool(e, page));
+          });
+        }}
+      >
         Text
         <RiText />
       </BtnStack>
