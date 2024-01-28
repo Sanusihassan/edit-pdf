@@ -5,9 +5,7 @@ export const enableEdit = (el: HTMLElement) => {
 
 export const handleEdit = (e: Event) => {
   const current = e.target as HTMLElement;
-  if (current && current.className !== "page") {
-    enableEdit(current);
-  }
+  enableEdit(current);
 };
 
 export const enableEditing = (editor: HTMLDivElement | null) => {

@@ -1,6 +1,6 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { create } from "zustand";
-import { Tool } from "./WYSIWYG/tools/createTool";
+type ToolFunction = (<T>(arg: T) => T | undefined | null) | null;
 
 export interface FileStore {
   files: File[];
@@ -13,6 +13,8 @@ export interface FileStore {
     imageUrl: string;
   }[];
   editor: HTMLDivElement | null;
+  currentTool: ToolFunction;
+  setCurrentTool: (currentTool: ToolFunction) => void;
   setFiles: (files: FileList | File[]) => void;
   setFileInput: (refEl: RefObject<HTMLInputElement> | null) => void;
   setSubmitBtn: (refEl: React.RefObject<HTMLButtonElement> | null) => void;
@@ -26,7 +28,7 @@ export interface FileStore {
     >
   >;
   setFilesLengthOnSubmit(value: number): void;
-  setEditor(editor:HTMLDivElement | null): void;
+  setEditor(editor: HTMLDivElement | null): void;
 }
 
 export const useFileStore = create<FileStore>((set) => ({
@@ -37,6 +39,7 @@ export const useFileStore = create<FileStore>((set) => ({
   imageUrls: [],
   filesLengthOnSubmit: 0,
   editor: null,
+  currentTool: null,
   setFiles: (files: FileList | File[]) => {
     const uniqueFiles = new Set<File>();
 
@@ -66,6 +69,7 @@ export const useFileStore = create<FileStore>((set) => ({
     set({ filesLengthOnSubmit: value });
   },
   setEditor(editor) {
-    set({editor})
+    set({ editor });
   },
+  setCurrentTool: (currentTool) => set({ currentTool }),
 }));

@@ -40,6 +40,7 @@ export const BtnStack = ({
       dispatch(setField({ currentTool: null }));
       disableEditing(editor);
       if (undo) {
+        console.log("calling undo...");
         undo();
       }
     } else {

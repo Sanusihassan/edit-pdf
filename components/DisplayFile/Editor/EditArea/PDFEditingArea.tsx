@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFileStore } from "@/src/file-store";
 import axios from "axios";
-import {
-  disableEditing,
-  enableEditing,
-} from "@/src/WYSIWYG/enableEditing";
+import { disableEditing, enableEditing } from "@/src/WYSIWYG/enableEditing";
 import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
+import parse from "html-react-parser";
+import { PageToolBar } from "./PageToolBar";
 
 export const PDFEditingArea = () => {
   const { files, setEditor } = useFileStore();
@@ -15,9 +14,15 @@ export const PDFEditingArea = () => {
   const currentTool = useSelector(
     (state: { tool: ToolState }) => state.tool.currentTool
   );
-  
+
   const pdf = files[0];
-  const [html, setHtml] = useState("");
+  // const [html, setHtml] = useState("");
+  const [headSection, setHeadSection] = useState<string | Element | Element[]>(
+    ""
+  );
+  const [pagesWithToolbar, setPagesWithToolbar] = useState<
+    string | Element | Element[]
+  >("");
   const editor = editingAreaRef.current;
   useEffect(() => {
     setEditor(editor);
@@ -33,42 +38,77 @@ export const PDFEditingArea = () => {
       //     responseType: "arraybuffer",
       //   }
       // );
-      const response = await axios.get(
-        "/Resume.html"
-      );
+      const response = await axios.get("/Resume.html");
       // Convert the ArrayBuffer to a string using TextDecoder
       // const decoder = new TextDecoder("utf-8");
       // const htmlString = decoder.decode(response.data);
 
       // Set the HTML string in the state
-      setHtml(response.data);
+      const parsedHtml: JSX.Element = parse(
+        response.data as string
+      ) as JSX.Element;
+      if (parsedHtml.props) {
+        const _headSection = parsedHtml.props.children.find(
+          (child: JSX.Element) => child.type === "head"
+        );
+        // set the headSection
+        setHeadSection(_headSection);
+        const bodySection = parsedHtml.props.children.find(
+          (child: JSX.Element) => child.type === "body"
+        );
+        if (bodySection.props.children) {
+          const processedBodyContent = bodySection.props.children.map(
+            (child: JSX.Element, index: number) => {
+              if (child && child.props && child.props.className === "page") {
+                return [
+                  <PageToolBar pageNumber={index + 1} />,
+                  <child.type
+                    {...child.props}
+                    onClick={() => {
+                      console.log("clicked")
+                    }}
+                    onKeyUp={() => {
+                      /* handle key up */
+                    }}
+                  />,
+                ];
+              } else {
+                return child;
+              }
+            }
+          );
+
+          setPagesWithToolbar(processedBodyContent);
+        }
+      }
       // WYSIWYGFunctionality(editor, currentTool);
       enableEditing(editor);
       return () => {
         // clean ups:
         disableEditing(editor);
-          // if(activeTool) {
-          //   activeTool.stop(editor)
-          // }
+        // if(activeTool) {
+        //   activeTool.stop(editor)
+        // }
       };
     })();
   }, [pdf, editingAreaRef.current, currentTool]);
 
   return (
     <section className="editing-area">
-      {/* <PageToolBar pageNumber={pageNumber} /> */}
-      {/* <iframe
-        srcDoc={html}
-        ref={editingAreaRef}
-        style={{ width: "100%", height: "100%" }}
-      ></iframe> */}
       <div
         className="wysiwyg-editor"
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
+        // dangerouslySetInnerHTML={{
+        //   __html: html,
+        // }}
         ref={editingAreaRef}
-      />
+      >
+        {headSection !== null && pagesWithToolbar !== null ? (
+          <>
+            {headSection}
+            {pagesWithToolbar}
+          </>
+        ) : null}
+      </div>
     </section>
   );
 };
