@@ -1,33 +1,16 @@
 import { useRouter } from "next/router";
 import DisplayFile from "./DisplayFile";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
+import { useEffect, useRef, useState } from "react";
 
 import type { edit_page } from "../content";
 import ErrorElement from "./ErrorElement";
 import type { errors as _ } from "../content";
-import { Spinner } from "react-bootstrap";
-import { CogIcon } from "@heroicons/react/outline";
-// import { ToolStoreContext } from "../src/ToolStoreContext";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ToolState,
-  resetErrorMessage,
-  setIsSubmitted,
-  setPath,
-  setShowOptions,
-} from "../src/store";
+import { ToolState, resetErrorMessage, setField } from "../src/store";
 import { useFileStore } from "../src/file-store";
 import AddMoreButton from "./EditArea/AddMoreButton";
 import { SubmitBtn } from "./EditArea/SubmitBtn";
+import { CogIcon } from "@heroicons/react/16/solid";
 
 type editPageProps = {
   extension: string;
@@ -79,7 +62,7 @@ const EditPage = ({
       dispatch(resetErrorMessage());
     }
     if (statePath !== k) {
-      dispatch(setPath(k));
+      dispatch(setField({ path: k }));
     }
   }, [files, errorCode]);
 
@@ -116,7 +99,7 @@ const EditPage = ({
         <button
           className="gear-button btn btn-light"
           onClick={() => {
-            dispatch(setShowOptions(!showOptions));
+            dispatch(setField({ showOptions: !showOptions}));
           }}
           ref={gearRef}
           style={

@@ -1,7 +1,7 @@
 import { Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useFileStore } from "../../src/file-store";
-import { ToolState, setIsSubmitted, setShowOptions } from "../../src/store";
+import { ToolState, setField } from "../../src/store";
 import type { edit_page } from "../../content";
 export function SubmitBtn({
   k,
@@ -23,8 +23,8 @@ export function SubmitBtn({
     <button
       className={`submit-btn btn btn-lg text-white position-relative overflow-hidden ${k} grid-footer`}
       onClick={() => {
-        dispatch(setIsSubmitted(true));
-        dispatch(setShowOptions(false));
+        dispatch(setField({ isSubmitted: true }));
+        dispatch(setField({ showOptions: false }));
         if (submitBtn) {
           submitBtn?.current?.click();
         }

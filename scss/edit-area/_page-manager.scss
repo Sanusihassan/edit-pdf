@@ -1,5 +1,8 @@
 aside.page-manager {
   min-width: 14%;
+  &.hide {
+    @include extend("d-none");
+  }
   @include extend("card rounded-0 position-fixed");
   height: 100%;
   overflow: auto;

@@ -2,9 +2,24 @@ import { handleEdit } from "../WYSIWYGFunctionality";
 
 // Individual tool interfaces
 export interface Tool {
-  execute: PDFToolFunction;
+  execute(options?:any): void;
   stop: PDFToolFunction;
+  setEl: (el: HTMLDivElement | null) => void;
 }
+
+export abstract class BaseTool implements Tool {
+  protected el: HTMLDivElement | null = null;
+
+  public setEl(el: HTMLDivElement | null): void {
+    if (el) {
+      this.el = el;
+    }
+  }
+
+  abstract execute(options?: any): void;
+  abstract stop(editor: HTMLDivElement | null): void;
+}
+
 
 export type PDFToolFunction = (editor: HTMLDivElement | null) => void;
 // Toolbar as a stateful object
