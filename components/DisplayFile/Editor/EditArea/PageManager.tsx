@@ -43,7 +43,7 @@ export const PageManager = () => {
   }, [files, headerHeight, showPages]);
 
   return (
-    <aside className={`page-manager${!showPages ? "" : " hide"}`} ref={pageManagerRef}>
+    <aside className={`page-manager${showPages ? "" : " hide"}`} ref={pageManagerRef}>
       <header>
         <div className="pages">Pages</div>
         <button className="re-arrange">

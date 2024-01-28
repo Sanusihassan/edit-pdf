@@ -59,7 +59,7 @@ const initialState: ToolState = {
   currentTool: null,
   fileName: "",
   headerHeight: null,
-  showPages: false
+  showPages: true
 };
 
 const toolSlice = createSlice({

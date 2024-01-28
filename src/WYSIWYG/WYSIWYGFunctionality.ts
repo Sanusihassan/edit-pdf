@@ -2,7 +2,6 @@ import { toolType } from "../store";
 import { enableEditing } from "./enableEditing";
 import { createToolRetVal } from "./tools/createTool";
 import { textTool } from "./tools/textTool";
-import { togglePagesTool } from "./tools/togglePages";
 let current: HTMLElement | null = null;
 export const WYSIWYGFunctionality = (
   editor: HTMLDivElement | null,
@@ -20,10 +19,7 @@ export const WYSIWYGFunctionality = (
     case "Text":
       tool.setTool(textTool);
       textTool.setEl(editor);
-      textTool.execute();
-      break;
-    case "pages":
-      tool.setTool(togglePagesTool)
+      textTool.execute(editor);
       break;
   }
 };

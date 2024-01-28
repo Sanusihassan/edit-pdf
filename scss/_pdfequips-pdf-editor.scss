@@ -80,7 +80,11 @@
     .gutter {
       flex: 0 0 14%;
       opacity: 0;
+      z-index: -1;
       visibility: hidden;
+      &.hide {
+        @include extend("d-none");
+      }
     }
     @import "./edit-area/page-manager";
     @import "./edit-area/editing-area";

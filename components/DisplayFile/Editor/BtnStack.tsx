@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToolState, setField, toolType } from "@/src/store";
 
@@ -6,12 +5,12 @@ export const BtnStack = ({
   id,
   children,
   cb,
-  ref
+  undo,
 }: {
   children: React.ReactNode;
   id: string;
   cb?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  ref?: React.RefObject<HTMLButtonElement>
+  undo?: () => void;
 }) => {
   const dispatch = useDispatch();
   const currentTool = useSelector(
@@ -20,21 +19,23 @@ export const BtnStack = ({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (currentTool) {
-      dispatch(setField({ currentTool: null}));
+      dispatch(setField({ currentTool: null }));
     } else {
-      dispatch(setField({ currentTool: (id as toolType) }));
+      dispatch(setField({ currentTool: id as toolType }));
     }
     if (cb) {
       cb(e);
     }
+    if (undo) {
+      undo();
+    }
   };
-  
+
   return (
     <button
       className={`btn-stack${id === currentTool ? " active" : ""}`}
       onClick={handleClick}
       title={id}
-      ref={ref}
     >
       {children}
     </button>

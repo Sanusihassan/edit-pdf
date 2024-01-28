@@ -1,16 +1,16 @@
 import { BaseTool, Tool } from "./createTool";
 
 class TextTool extends BaseTool implements Tool {
-  execute(): void {
-    if (BaseTool.el) {
-      BaseTool.el.addEventListener("click", (e) => this.textToolHandler(e, BaseTool.el));
+  execute(editor: HTMLDivElement | null): void {
+    if (this.el) {
+      this.el.addEventListener("click", (e) => this.textToolHandler(e, editor));
     }
   }
 
-  stop(): void {
+  stop(editor: HTMLDivElement | null): void {
     console.log("event stopped");
-    if (BaseTool.el) {
-      BaseTool.el.removeEventListener("click", (e) => this.textToolHandler(e, BaseTool.el));
+    if (this.el) {
+      this.el.removeEventListener("click", (e) => this.textToolHandler(e, editor));
     }
   }
 

@@ -8,9 +8,9 @@ export interface Tool {
 }
 
 export abstract class BaseTool implements Tool {
-  protected el: HTMLDivElement | null = null;
+  protected el: HTMLElement | null = null;
 
-  public setEl(el: HTMLDivElement | null): void {
+  public setEl(el: HTMLElement | null): void {
     if (el) {
       this.el = el;
     }
@@ -23,7 +23,7 @@ export abstract class BaseTool implements Tool {
 
 export type PDFToolFunction = (editor: HTMLDivElement | null) => void;
 // Toolbar as a stateful object
-export const createTool = (editor: HTMLDivElement | null, setActiveTool: (tool: Tool) => void) => {
+export const createTool = (editor: HTMLDivElement | null, options?: any) => {
   let currentTool: Tool | null = null;
 
   const setTool = (tool: Tool) => {
@@ -32,15 +32,15 @@ export const createTool = (editor: HTMLDivElement | null, setActiveTool: (tool: 
       currentTool.stop && currentTool.stop(editor);
     }
     editor?.removeEventListener("mousemove", handleEdit);
-    setActiveTool(tool)
     currentTool = tool;
   };
 
-  const executeCurrentTool = () => {
+  const executeCurrentTool = (options?: any): Tool | null => {
     if (currentTool) {
       // Execute the current tool
-      currentTool.execute && currentTool.execute(editor);
+      currentTool.execute && currentTool.execute(options);
     }
+    return currentTool;
   };
 
   return {
