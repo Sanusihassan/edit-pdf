@@ -23,7 +23,7 @@ section.editing-area {
     }
   }
   .page-toolbar {
-    @include extend("d-flex justify-content-between align-items-center py-2");
+    @include extend("d-flex justify-content-between align-items-center px-3");
     color: white;
     %button {
       @include extend("btn-reset transition rounded py-1 text-white");

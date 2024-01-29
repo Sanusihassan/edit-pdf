@@ -6,20 +6,24 @@ import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { PageToolBar } from "./PageToolBar";
+import TextParticle from "../Particles/TextParticle";
 
 export const PDFEditingArea = () => {
-  const { files, setEditor } = useFileStore();
+  const { files, setEditor, currentTool } = useFileStore();
   const editingAreaRef = useRef<HTMLDivElement>(null);
-  // const [numPages, setNumPages] = useState(0);
-  const currentTool = useSelector(
+  const [particlePositions, setParticlePositions] = useState<
+    { x: number; y: number }[]
+  >([]);
+
+  const currentToolName = useSelector(
     (state: { tool: ToolState }) => state.tool.currentTool
   );
 
   const pdf = files[0];
-  // const [html, setHtml] = useState("");
-  const [headSection, setHeadSection] = useState<string | Element | Element[]>(
-    ""
-  );
+  // const [headSection, setHeadSection] = useState<string | Element | Element[]>(
+  //   ""
+  // );
+  const [headContent, setHeadContent] = useState<string | null>(null);
   const [pagesWithToolbar, setPagesWithToolbar] = useState<
     string | Element | Element[]
   >("");
@@ -51,27 +55,40 @@ export const PDFEditingArea = () => {
         const _headSection = parsedHtml.props.children.find(
           (child: JSX.Element) => child.type === "head"
         );
-        // set the headSection
-        setHeadSection(_headSection);
+        setHeadContent(_headSection?.props.children);
         const bodySection = parsedHtml.props.children.find(
           (child: JSX.Element) => child.type === "body"
         );
+
         if (bodySection.props.children) {
           const processedBodyContent = bodySection.props.children.map(
             (child: JSX.Element, index: number) => {
               if (child && child.props && child.props.className === "page") {
-                return [
-                  <PageToolBar pageNumber={index + 1} />,
-                  <child.type
-                    {...child.props}
-                    onClick={() => {
-                      console.log("clicked")
-                    }}
-                    onKeyUp={() => {
-                      /* handle key up */
-                    }}
-                  />,
-                ];
+                return (
+                  <React.Fragment key={index}>
+                    <PageToolBar pageNumber={index + 1} />
+                    {particlePositions.map(({ x, y }, i) => (
+                      <React.Fragment key={i}>
+                        {currentToolName === "Text" && (
+                          <TextParticle x={x} y={y} key={i} />
+                        )}
+                        {/* Add more cases for different tools as needed */}
+                      </React.Fragment>
+                    ))}
+                    {React.cloneElement(child, {
+                      ...child.props,
+                      onClick: (e: MouseEvent) => {
+                        if (currentToolName) {
+                          const { clientX: x, clientY: y } = e;
+                          setParticlePositions((prevPositions) => {
+                            const newPosition = { x, y };
+                            return [...prevPositions, newPosition];
+                          });
+                        }
+                      },
+                    })}
+                  </React.Fragment>
+                );
               } else {
                 return child;
               }
@@ -86,28 +103,29 @@ export const PDFEditingArea = () => {
       return () => {
         // clean ups:
         disableEditing(editor);
-        // if(activeTool) {
-        //   activeTool.stop(editor)
-        // }
       };
     })();
-  }, [pdf, editingAreaRef.current, currentTool]);
+  }, [pdf, editingAreaRef.current, currentToolName]);
 
   return (
     <section className="editing-area">
-      <div
-        className="wysiwyg-editor"
-        // dangerouslySetInnerHTML={{
-        //   __html: html,
-        // }}
-        ref={editingAreaRef}
-      >
-        {headSection !== null && pagesWithToolbar !== null ? (
+      <div className="wysiwyg-editor" ref={editingAreaRef}>
+        {headContent !== null && pagesWithToolbar !== null ? (
           <>
-            {headSection}
+            <style>{headContent}</style>
+            {particlePositions.map(({ x, y }, i) => (
+              <React.Fragment key={i}>
+                {currentToolName === "Text" && (
+                  <TextParticle x={x} y={y} key={i} />
+                )}
+                {/* Add more cases for different tools as needed */}
+              </React.Fragment>
+            ))}
             {pagesWithToolbar}
           </>
-        ) : null}
+        ) : (
+          <div>loading...</div>
+        )}
       </div>
     </section>
   );
