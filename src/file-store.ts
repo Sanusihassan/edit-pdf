@@ -1,6 +1,6 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { create } from "zustand";
-type ToolFunction = (<T>(arg: T) => T | undefined | null) | null;
+type ToolFunction = (e: Event, page: HTMLDivElement | Element | null) => void;
 
 export interface FileStore {
   files: File[];
@@ -13,7 +13,7 @@ export interface FileStore {
     imageUrl: string;
   }[];
   editor: HTMLDivElement | null;
-  currentTool: ToolFunction;
+  currentTool: ToolFunction | null;
   setCurrentTool: (currentTool: ToolFunction) => void;
   setFiles: (files: FileList | File[]) => void;
   setFileInput: (refEl: RefObject<HTMLInputElement> | null) => void;

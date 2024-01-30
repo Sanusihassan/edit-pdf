@@ -24,10 +24,12 @@ import { textToolHandler } from "@/src/WYSIWYG/tools/textTool";
 
 export const EditTools = () => {
   const [showShapeTools, setShowShapeTools] = useState(false);
-
+  const { setCurrentTool } = useFileStore();
   return (
     <div className="b tool-row">
-      <BtnStack id="Text">
+      <BtnStack id="Text" cb={() => {
+        setCurrentTool(textToolHandler)
+      }}>
         Text
         <RiText />
       </BtnStack>

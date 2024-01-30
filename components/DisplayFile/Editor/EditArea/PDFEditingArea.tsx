@@ -6,20 +6,14 @@ import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { PageToolBar } from "./PageToolBar";
+import { Page } from "../Page";
 
 export const PDFEditingArea = () => {
   const { files, setEditor } = useFileStore();
   const editingAreaRef = useRef<HTMLDivElement>(null);
-  // const [numPages, setNumPages] = useState(0);
-  const currentTool = useSelector(
-    (state: { tool: ToolState }) => state.tool.currentTool
-  );
 
   const pdf = files[0];
-  // const [html, setHtml] = useState("");
-  const [headSection, setHeadSection] = useState<string | Element | Element[]>(
-    ""
-  );
+  const [headContent, setHeadContent] = useState<string | null>(null);
   const [pagesWithToolbar, setPagesWithToolbar] = useState<
     string | Element | Element[]
   >("");
@@ -51,32 +45,28 @@ export const PDFEditingArea = () => {
         const _headSection = parsedHtml.props.children.find(
           (child: JSX.Element) => child.type === "head"
         );
-        // set the headSection
-        setHeadSection(_headSection);
+        setHeadContent(_headSection?.props.children);
         const bodySection = parsedHtml.props.children.find(
           (child: JSX.Element) => child.type === "body"
         );
+        // the particle is not inserted here:
         if (bodySection.props.children) {
           const processedBodyContent = bodySection.props.children.map(
             (child: JSX.Element, index: number) => {
               if (child && child.props && child.props.className === "page") {
-                return [
-                  <PageToolBar pageNumber={index + 1} />,
-                  <child.type
-                    {...child.props}
-                    onClick={() => {
-                      console.log("clicked")
-                    }}
-                    onKeyUp={() => {
-                      /* handle key up */
-                    }}
-                  />,
-                ];
+                return (
+                  <div key={index} className="pdf-page">
+                    <PageToolBar pageNumber={index + 1} />
+                    <Page child={child} index={index + 1} />
+                  </div>
+                );
               } else {
                 return child;
               }
             }
           );
+
+          // const pages = bodySection.props.children.map
 
           setPagesWithToolbar(processedBodyContent);
         }
@@ -86,28 +76,21 @@ export const PDFEditingArea = () => {
       return () => {
         // clean ups:
         disableEditing(editor);
-        // if(activeTool) {
-        //   activeTool.stop(editor)
-        // }
       };
     })();
-  }, [pdf, editingAreaRef.current, currentTool]);
+  }, [pdf, editingAreaRef.current]);
 
   return (
     <section className="editing-area">
-      <div
-        className="wysiwyg-editor"
-        // dangerouslySetInnerHTML={{
-        //   __html: html,
-        // }}
-        ref={editingAreaRef}
-      >
-        {headSection !== null && pagesWithToolbar !== null ? (
+      <div className="wysiwyg-editor" ref={editingAreaRef}>
+        {headContent !== null && pagesWithToolbar !== null ? (
           <>
-            {headSection}
+            <style>{headContent}</style>
             {pagesWithToolbar}
           </>
-        ) : null}
+        ) : (
+          <div>loading...</div>
+        )}
       </div>
     </section>
   );
