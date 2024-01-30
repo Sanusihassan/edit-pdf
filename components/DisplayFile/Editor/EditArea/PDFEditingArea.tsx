@@ -6,23 +6,13 @@ import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { PageToolBar } from "./PageToolBar";
-import TextParticle from "../Particles/TextParticle";
+import { Page } from "../Page";
 
 export const PDFEditingArea = () => {
-  const { files, setEditor, currentTool } = useFileStore();
+  const { files, setEditor } = useFileStore();
   const editingAreaRef = useRef<HTMLDivElement>(null);
-  const [particlePositions, setParticlePositions] = useState<
-    { x: number; y: number }[]
-  >([]);
-
-  const currentToolName = useSelector(
-    (state: { tool: ToolState }) => state.tool.currentTool
-  );
 
   const pdf = files[0];
-  // const [headSection, setHeadSection] = useState<string | Element | Element[]>(
-  //   ""
-  // );
   const [headContent, setHeadContent] = useState<string | null>(null);
   const [pagesWithToolbar, setPagesWithToolbar] = useState<
     string | Element | Element[]
@@ -59,41 +49,24 @@ export const PDFEditingArea = () => {
         const bodySection = parsedHtml.props.children.find(
           (child: JSX.Element) => child.type === "body"
         );
-
+        // the particle is not inserted here:
         if (bodySection.props.children) {
           const processedBodyContent = bodySection.props.children.map(
             (child: JSX.Element, index: number) => {
               if (child && child.props && child.props.className === "page") {
                 return (
-                  <React.Fragment key={index}>
+                  <div key={index} className="pdf-page">
                     <PageToolBar pageNumber={index + 1} />
-                    {particlePositions.map(({ x, y }, i) => (
-                      <React.Fragment key={i}>
-                        {currentToolName === "Text" && (
-                          <TextParticle x={x} y={y} key={i} />
-                        )}
-                        {/* Add more cases for different tools as needed */}
-                      </React.Fragment>
-                    ))}
-                    {React.cloneElement(child, {
-                      ...child.props,
-                      onClick: (e: MouseEvent) => {
-                        if (currentToolName) {
-                          const { clientX: x, clientY: y } = e;
-                          setParticlePositions((prevPositions) => {
-                            const newPosition = { x, y };
-                            return [...prevPositions, newPosition];
-                          });
-                        }
-                      },
-                    })}
-                  </React.Fragment>
+                    <Page child={child} index={index + 1} />
+                  </div>
                 );
               } else {
                 return child;
               }
             }
           );
+
+          // const pages = bodySection.props.children.map
 
           setPagesWithToolbar(processedBodyContent);
         }
@@ -105,7 +78,7 @@ export const PDFEditingArea = () => {
         disableEditing(editor);
       };
     })();
-  }, [pdf, editingAreaRef.current, currentToolName]);
+  }, [pdf, editingAreaRef.current]);
 
   return (
     <section className="editing-area">
@@ -113,14 +86,6 @@ export const PDFEditingArea = () => {
         {headContent !== null && pagesWithToolbar !== null ? (
           <>
             <style>{headContent}</style>
-            {particlePositions.map(({ x, y }, i) => (
-              <React.Fragment key={i}>
-                {currentToolName === "Text" && (
-                  <TextParticle x={x} y={y} key={i} />
-                )}
-                {/* Add more cases for different tools as needed */}
-              </React.Fragment>
-            ))}
             {pagesWithToolbar}
           </>
         ) : (

@@ -8,17 +8,22 @@ section.editing-area {
     *:focus {
       outline: none;
     }
+    .pdf-page {
+      @include extend("position-relative");
+    }
+    .particle-wrapper {
+      @include extend("position-absolute t-0 l-0 w-100 h-100");
+      border: 2px solid red;
+      // z-index: 1;
+    }
     .page {
       border: none !important;
-    }
-    .editable-element {
-      @include extend("position-absolute");
-      border: 1px solid #ccc;
-      padding: 5px;
+      overflow: hidden;
     }
     .text {
       border: 1px solid red;
       min-width: 1ch;
+      min-height: 1ch;
       @include extend("position-absolute");
     }
   }

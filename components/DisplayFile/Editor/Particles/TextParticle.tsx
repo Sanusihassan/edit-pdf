@@ -1,3 +1,5 @@
+// TextParticle.tsx:
+// the text particles are not appearing exactly on the mouse position:
 import React, { HTMLProps, useEffect, useRef } from "react";
 
 interface TextParticleProps extends HTMLProps<HTMLDivElement> {
@@ -7,10 +9,8 @@ interface TextParticleProps extends HTMLProps<HTMLDivElement> {
 
 const TextParticle: React.FC<TextParticleProps> = ({ x, y, ...rest }) => {
   const textStyle: React.CSSProperties = {
-    position: "absolute",
     left: `${x}px`,
     top: `${y}px`,
-    transform: "translate(-50%, -50%)", // Center the text around the clicked point
   };
 
   const ref = useRef<HTMLDivElement>(null);
@@ -19,10 +19,13 @@ const TextParticle: React.FC<TextParticleProps> = ({ x, y, ...rest }) => {
     if (ref.current) {
       ref.current.focus();
     }
+    console.log("mounted");
   }, [ref.current]);
 
   return (
-    <div className="text" style={textStyle} contentEditable={true} {...rest} ref={ref} />
+    <div className="text text-particle" style={textStyle} {...rest}>
+      <span ref={ref} contentEditable={true} />
+    </div>
   );
 };
 
