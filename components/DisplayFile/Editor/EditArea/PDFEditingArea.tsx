@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useFileStore } from "@/src/file-store";
 import axios from "axios";
 import { disableEditing, enableEditing } from "@/src/WYSIWYG/enableEditing";
-import { ToolState } from "@/src/store";
-import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { PageToolBar } from "./PageToolBar";
 import { Page } from "../Page";
@@ -55,10 +53,10 @@ export const PDFEditingArea = () => {
             (child: JSX.Element, index: number) => {
               if (child && child.props && child.props.className === "page") {
                 return (
-                  <div key={index} className="pdf-page">
-                    <PageToolBar pageNumber={index + 1} />
-                    <Page child={child} index={index + 1} />
-                  </div>
+                  <React.Fragment key={index}>
+                    <PageToolBar pageNumber={index} />
+                    <Page child={child} />
+                  </React.Fragment>
                 );
               } else {
                 return child;

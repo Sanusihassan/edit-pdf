@@ -1,52 +1,54 @@
-// i don't understand what index is really for?
-import React, { useEffect, useState } from "react";
+// this is not working, let's use a canvas library that provide
+import React, { useEffect, useRef, useState } from "react";
 import TextParticle from "./Particles/TextParticle";
-import { ToolState } from "@/src/store";
+import { ToolState, toolType } from "@/src/store";
 import { useSelector } from "react-redux";
 
-interface PageParticleState {
-  [key: number]: boolean;
-}
-
-export const Page = ({
-  child,
-  index,
-}: {
-  child: JSX.Element;
-  index: number; // Add index as a prop
-}) => {
-  const [activePageParticle, setActivePageParticle] = useState<boolean>(false);
-  const [particleCoords, setParticleCoords] = useState<
-    {
-      x: number;
-      y: number;
-    }[]
-  >([]);
+export const Page = ({ child }: { child: JSX.Element }) => {
+  const [particles, setParticles] = useState<{
+    [key in toolType]: { x: number; y: number }[];
+  }>([] as unknown as { [key in toolType]: { x: number; y: number }[] });
   const currentToolName = useSelector(
     (state: { tool: ToolState }) => state.tool.currentTool
   );
+  const pageRef = useRef<HTMLDivElement>();
 
-  useEffect(() => {}, [particleCoords, currentToolName]);
-
-  const handlePageClick = (e: React.MouseEvent) => {
-    const pageX = e.nativeEvent?.pageX ?? e.pageX ?? 0;
-    const pageY = e.nativeEvent?.pageY ?? e.pageY ?? 0;
+  const handlePageClick = (e: MouseEvent) => {
     console.log(e);
-    if (currentToolName) {
-      setParticleCoords([...particleCoords, { x: pageX, y: pageY }]);
+    // @ts-ignore
+    const clientX = e.layerX ?? 0;
+    // @ts-ignore
+    const clientY = e.layerY ?? 0;
+
+    // Check if the tool name already has particles, if not, initialize it
+    if (currentToolName && particles !== null) {
+      setParticles((prevParticles) => ({
+        ...prevParticles,
+        [currentToolName]: [
+          ...(prevParticles[currentToolName] || []),
+          { x: clientX, y: clientY },
+        ],
+      }));
     }
-    setActivePageParticle(!activePageParticle);
   };
+  useEffect(() => {
+    if (pageRef.current) {
+      pageRef.current.addEventListener("click", handlePageClick);
+    }
+  }, [pageRef.current]);
 
   return (
-    <div {...child.props} onClick={(e: React.MouseEvent) => handlePageClick(e)}>
+    <div {...child.props} ref={pageRef}>
       {child.props.children}
-      {particleCoords.map(({ x, y }) => {
-        switch (currentToolName) {
-          case "Text":
-            return <TextParticle x={x} y={y} />;
-        }
-      })}
+      <div className="particle-container">
+        {particles[currentToolName as toolType] &&
+          particles[currentToolName as toolType].map(({ x, y }, index) => (
+            <React.Fragment key={index}>
+              {currentToolName === "Text" && <TextParticle x={x} y={y} />}
+              {/* Add more cases for other tools if needed */}
+            </React.Fragment>
+          ))}
+      </div>
     </div>
   );
 };

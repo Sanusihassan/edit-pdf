@@ -4,12 +4,14 @@ section.editing-area {
   // margin-left: 14%;
   flex: 1;
   .wysiwyg-editor {
-    zoom: 1.3;
+    // zoom: 1.3;
     *:focus {
       outline: none;
     }
-    .pdf-page {
-      @include extend("position-relative");
+    .particle-container {
+      @include extend("position-absolute w-100 h-100");
+      top: 0;
+      left: 0;
     }
     .particle-wrapper {
       @include extend("position-absolute t-0 l-0 w-100 h-100");
