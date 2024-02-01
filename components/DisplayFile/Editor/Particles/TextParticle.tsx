@@ -1,33 +1,49 @@
-// TextParticle.tsx:
-import React, { HTMLProps, useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useDrag } from "react-dnd";
+import { Resizable } from "react-resizable";
 
-interface TextParticleProps extends HTMLProps<HTMLDivElement> {
+interface TextParticleProps {
   x: number;
   y: number;
-  
 }
 
-const TextParticle: React.FC<TextParticleProps> = ({ x, y, ...rest }) => {
-  
-
+const TextParticle: React.FC<TextParticleProps> = ({ x, y }) => {
   const textStyle: React.CSSProperties = {
     left: `${x}px`,
     top: `${y}px`,
+    position: "absolute",
   };
-  // const [textStyle, setTextStyle] = useState< React.CSSProperties>()
 
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      // ref.current.focus();
-    }
-  }, [ref.current]);
+  const [, drag] = useDrag({
+    type: "text-particle",
+    item: { type: "text-particle", x, y },
+  });
 
   return (
-    <div className="text text-particle" style={textStyle} {...rest}>
-      testing
-      {/* <span ref={ref} contentEditable={true} /> */}
+    <div
+      key="text-particle"
+      className="text text-particle"
+      style={{ ...textStyle, cursor: "move" }}
+      ref={(node) => drag(node)}
+    >
+      <Resizable
+        width={200}
+        height={100}
+        minConstraints={[100, 50]}
+        maxConstraints={[500, 300]}
+      >
+        <div
+          contentEditable={true}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onFocus={(e) => {
+            e.stopPropagation();
+          }}
+          ref={ref}
+        />
+      </Resizable>
     </div>
   );
 };
