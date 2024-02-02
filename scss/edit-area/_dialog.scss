@@ -1,0 +1,51 @@
+.custom-dialog {
+  // Add your custom styles for the dialog here
+//   &:not(.show) {
+//     @include extend("d-none");
+//   }
+  .launch-btn {
+    @include extend("btn primary-btn");
+
+    // Add your custom styles for the launch button here
+  }
+
+  .custom-modal {
+    @include extend("modal fade");
+
+    .custom-modal-dialog {
+      @include extend("modal-dialog");
+    }
+
+    .custom-modal-content {
+      @include extend("modal-content");
+
+      .custom-modal-header {
+        @include extend("modal-header");
+
+        .custom-modal-title {
+          @include extend("modal-title");
+        }
+
+        .close-btn {
+          @include extend("btn-close");
+        }
+      }
+
+      .custom-modal-body {
+        @include extend("modal-body");
+      }
+
+      .custom-modal-footer {
+        @include extend("modal-footer");
+
+        .close-btn {
+          @include extend("btn secondary-btn");
+        }
+
+        .save-btn {
+          @include extend("btn primary-btn");
+        }
+      }
+    }
+  }
+}

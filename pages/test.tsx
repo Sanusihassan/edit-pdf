@@ -1,57 +1,60 @@
-import TextParticle from "@/components/DisplayFile/Editor/Particles/TextParticle";
+import React, { useRef, useState } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
 
+const DragAndHighlightKonva: React.FC = () => {
+  const [selectionPosition, setSelectionPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const isDraggingRef = useRef(false);
+  const startPositionRef = useRef({ x: 0, y: 0 });
 
+  const handleMouseDown = (e: any) => {
+    isDraggingRef.current = true;
+    startPositionRef.current = { x: e.evt.clientX, y: e.evt.clientY };
+  };
 
-import React, { useState, useEffect, MouseEvent, useRef } from "react";
-import { Stage, Layer, Text } from "react-konva";
+  const handleMouseMove = (e: any) => {
+    if (isDraggingRef.current) {
+      const width = e.evt.clientX - startPositionRef.current.x;
+      const height = e.evt.clientY - startPositionRef.current.y;
 
-
-interface TextParticleProps {
-  x: number;
-  y: number;
-}
-
-const App: React.FC = () => {
-  const [innerWidth, setInnerWidth] = useState<number>(0);
-  const [innerHeight, setInnerHeight] = useState<number>(0);
-  const [textParticles, setTextParticles] = useState<TextParticleProps[]>([]);
-  const stageRef = useRef(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setInnerWidth(window.innerWidth);
-      setInnerHeight(window.innerHeight);
-    };
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [stageRef.current]);
-
-  const handleCanvasClick = (e: any) => {
-    const stage = stageRef.current;
-    if (stage) {
-        // Property 'getPointerPosition' does not exist on type 'never'.ts(2339)
-      const position = stage.getPointerPosition();
-      if (position) {
-        setTextParticles([...textParticles, { x: position.x, y: position.y }]);
-      }
+      setSelectionPosition({
+        x: startPositionRef.current.x,
+        y: startPositionRef.current.y,
+        width,
+        height,
+      });
     }
   };
 
-  return innerWidth > 0 && innerHeight > 0 ? (
-    <Stage width={innerWidth} height={innerHeight} onClick={handleCanvasClick} ref={stageRef}>
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
+  return (
+    <Stage width={800} height={600}>
       <Layer>
-        <Text text="Click anywhere to add editable text" />
-        {textParticles.map((particle, index) => (
-          <TextParticle key={index} x={particle.x} y={particle.y} />
-        ))}
+        {/* Your page content goes here */}
+        <Rect
+          width={800}
+          height={600}
+          fill="white"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+        />
+        {selectionPosition.width > 0 && selectionPosition.height > 0 && (
+          <Rect
+            x={selectionPosition.x}
+            y={selectionPosition.y}
+            width={selectionPosition.width}
+            height={selectionPosition.height}
+            stroke="gold"
+            strokeWidth={2}
+            fill="rgba(155, 155, 0, 0.3)"
+          />
+        )}
       </Layer>
     </Stage>
-  ) : null;
+  );
 };
 
-export default App;
+export default DragAndHighlightKonva;

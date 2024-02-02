@@ -1,50 +1,57 @@
 import React, { useRef } from "react";
-import { useDrag } from "react-dnd";
-import { Resizable } from "react-resizable";
+import { Rnd } from "react-rnd";
 
 interface TextParticleProps {
   x: number;
   y: number;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TextParticle: React.FC<TextParticleProps> = ({ x, y }) => {
-  const textStyle: React.CSSProperties = {
-    left: `${x}px`,
-    top: `${y}px`,
-    position: "absolute",
-  };
-
+const TextParticle: React.FC<TextParticleProps> = ({ x, y, setIsDragging }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [, drag] = useDrag({
-    type: "text-particle",
-    item: { type: "text-particle", x, y },
-  });
 
   return (
-    <div
-      key="text-particle"
-      className="text text-particle"
-      style={{ ...textStyle, cursor: "move" }}
-      ref={(node) => drag(node)}
+    <Rnd
+      default={{
+        x: x,
+        y: y,
+        width: 200,
+        height: 100,
+      }}
+      // onDragStop={(e, d) => {
+      //   e.stopPropagation();
+      //   setIsDragging(true);
+      // }}
+      onDrag={(e, d) => {
+        e.stopPropagation();
+        setIsDragging(true);
+      }}
+      onResizeStop={(e, direction, ref, delta, position) => {
+        e.stopPropagation();
+        setIsDragging(true);
+      }}
+      minWidth={100}
+      minHeight={50}
+      maxWidth={500}
+      maxHeight={300}
+      bounds="parent"
+      className="text-particle"
     >
-      <Resizable
-        width={200}
-        height={100}
-        minConstraints={[100, 50]}
-        maxConstraints={[500, 300]}
-      >
-        <div
-          contentEditable={true}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onFocus={(e) => {
-            e.stopPropagation();
-          }}
-          ref={ref}
-        />
-      </Resizable>
-    </div>
+      <div
+        className="text"
+        contentEditable={true}
+        tabIndex={-1}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onFocus={(e) => {
+          e.stopPropagation();
+        }}
+        onBlur={(e) => {
+          setIsDragging(false);
+        }}
+      ></div>
+    </Rnd>
   );
 };
 
