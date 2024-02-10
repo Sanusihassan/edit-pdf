@@ -1,20 +1,27 @@
-import React, { useRef, useState } from 'react';
-import { Stage, Layer, Rect } from 'react-konva';
+import React, { useRef, useState } from "react";
 
-const DragAndHighlightKonva: React.FC = () => {
-  const [selectionPosition, setSelectionPosition] = useState({ x: 0, y: 0, width: 0, height: 0 });
+const DragAndHighlightDiv: React.FC = () => {
+  const [rectangles, setRectangles] = useState<
+    Array<{ x: number; y: number; width: number; height: number }>
+  >([]);
+  const [selectionPosition, setSelectionPosition] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
   const isDraggingRef = useRef(false);
   const startPositionRef = useRef({ x: 0, y: 0 });
 
   const handleMouseDown = (e: any) => {
     isDraggingRef.current = true;
-    startPositionRef.current = { x: e.evt.clientX, y: e.evt.clientY };
+    startPositionRef.current = { x: e.clientX, y: e.clientY };
   };
 
   const handleMouseMove = (e: any) => {
     if (isDraggingRef.current) {
-      const width = e.evt.clientX - startPositionRef.current.x;
-      const height = e.evt.clientY - startPositionRef.current.y;
+      const width = e.clientX - startPositionRef.current.x;
+      const height = e.clientY - startPositionRef.current.y;
 
       setSelectionPosition({
         x: startPositionRef.current.x,
@@ -26,35 +33,51 @@ const DragAndHighlightKonva: React.FC = () => {
   };
 
   const handleMouseUp = () => {
-    isDraggingRef.current = false;
+    if (isDraggingRef.current) {
+      isDraggingRef.current = false;
+      setRectangles([...rectangles, selectionPosition]);
+      setSelectionPosition({ x: 0, y: 0, width: 0, height: 0 });
+    }
   };
 
   return (
-    <Stage width={800} height={600}>
-      <Layer>
-        {/* Your page content goes here */}
-        <Rect
-          width={800}
-          height={600}
-          fill="white"
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-        />
+    <>
+      <div
+        style={{ position: "relative", width: "800px", height: "600px" }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
+        {rectangles.map((rect, index) => (
+          <div
+            key={index}
+            style={{
+              position: "absolute",
+              left: rect.x,
+              top: rect.y,
+              width: rect.width,
+              height: rect.height,
+              backgroundColor: "rgba(255, 243, 192, .5)",
+              boxSizing: "border-box",
+            }}
+          ></div>
+        ))}
         {selectionPosition.width > 0 && selectionPosition.height > 0 && (
-          <Rect
-            x={selectionPosition.x}
-            y={selectionPosition.y}
-            width={selectionPosition.width}
-            height={selectionPosition.height}
-            stroke="gold"
-            strokeWidth={2}
-            fill="rgba(155, 155, 0, 0.3)"
-          />
+          <div
+            style={{
+              position: "absolute",
+              left: selectionPosition.x,
+              top: selectionPosition.y,
+              width: selectionPosition.width,
+              height: selectionPosition.height,
+              backgroundColor: "rgba(255, 243, 192, .5)",
+              boxSizing: "border-box",
+            }}
+          ></div>
         )}
-      </Layer>
-    </Stage>
+      </div>
+    </>
   );
 };
 
-export default DragAndHighlightKonva;
+export default DragAndHighlightDiv;

@@ -5,6 +5,13 @@ import TextParticle from "./Particles/TextParticle";
 import { ToolState } from "@/src/store";
 import { useSelector } from "react-redux";
 import { KonvaParticles } from "./Particles/KonvaParticles";
+import { enableEdit } from "@/src/WYSIWYG/enableEditing";
+const enableEditing = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent> | MouseEvent
+) => {
+  const { target } = e;
+  enableEdit(target as HTMLElement);
+};
 
 export const Page = ({ child }: { child: JSX.Element }) => {
   const currentToolName = useSelector(
@@ -13,7 +20,6 @@ export const Page = ({ child }: { child: JSX.Element }) => {
   const pageRef = useRef<HTMLDivElement>(null);
   const [particles, setParticles] = useState<JSX.Element[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // Check if the click event is a result of dragging
     if (e.detail === 0 || isDragging) {
@@ -51,16 +57,24 @@ export const Page = ({ child }: { child: JSX.Element }) => {
   };
 
   useEffect(() => {
-    
-  }, [currentToolName, isDragging, pageRef.current]);
+    // cleanup
+    return () => {
+      pageRef.current?.removeEventListener("mousedown", enableEditing);
+    };
+  }, [currentToolName, isDragging]);
 
   return (
-    <div {...child.props}>
-      {child.props.children}
+    <div
+      {...child.props}
+      ref={pageRef}
+      // enable editing
+      onMouseDown={enableEditing}
+    >
       <KonvaParticles pageRef={pageRef} />
-      <div className="particle-container" onClick={handleClick} tabIndex={0}>
-        {particles.map((particle) => particle)}
-      </div>
+      {child.props.children}
+      {/* <div className="particle-container" onClick={handleClick} tabIndex={0}>
+      </div> */}
+      {particles.map((particle) => particle)}
     </div>
   );
 };

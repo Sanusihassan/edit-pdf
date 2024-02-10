@@ -70,11 +70,6 @@ export const PDFEditingArea = () => {
         }
       }
       // WYSIWYGFunctionality(editor, currentTool);
-      enableEditing(editor);
-      return () => {
-        // clean ups:
-        disableEditing(editor);
-      };
     })();
   }, [pdf, editingAreaRef.current]);
 
